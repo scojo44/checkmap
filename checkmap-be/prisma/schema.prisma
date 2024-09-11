@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  User
+  Admin
+}
+
+enum CountyType {
+  County
+  Parish
+  IndependentCity
+  Borough
+  CityAndBorough
+  CensusArea
+  Island
+  District
+  Municipality
+  Municipio
+  UnorganizedAtoll
+}
+
+enum RegionType {
+  State
+  County
+}
+
+model State {
+  id       Int      @id
+  name     String
+  boundary Json
+  counties County[]
+  lists    List[]
+
+  @@map("states")
+}
+
+model County {
+  id       Int        @id
+  name     String
+  fullName String     @map("full_name")
+  type     CountyType @default(County)
+  boundary Json
+  stateID  Int        @map("state_id")
+  state    State      @relation(fields: [stateID], references: [id])
+  lists    List[]
+
+  @@map("counties")
+}
+
+model List {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  regionType  RegionType @map("region_type")
+  ownerName   String     @map("owner_name")
+  owner       User       @relation(fields: [ownerName], references: [username], onDelete: Cascade)
+  counties    County[]
+  states      State[]
+
+  @@map("lists")
+}
+
+model User {
+  username String   @id
+  password String
+  imageURL String?  @map("image_url")
+  role     UserRole @default(User)
+  lists    List[]
+
+  @@map("users")
+}
