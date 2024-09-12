@@ -77,7 +77,7 @@ describe("ensureLoggedIn", () => {
     const req = {};
     const res = {locals: {}};
     const next = err => {
-      expect(err instanceof UnauthorizedError).toBeTruthy();
+      expect(err).toBeInstanceOf(UnauthorizedError);
     };
 
     ensureLoggedIn(req, res, next);
@@ -104,7 +104,7 @@ describe("ensureAdmin", () => {
     const req = {};
     const res = {locals: {userToken: {username: "test", role: UserRole.User}}};
     const next = err => {
-      expect(err instanceof UnauthorizedError).toBeTruthy();
+      expect(err).toBeInstanceOf(UnauthorizedError);
     };
 
     ensureAdmin(req, res, next);
@@ -143,7 +143,7 @@ describe("ensureSelfOrAdmin", () => {
     const req = {params: {username: 'someoneelse'}};
     const res = {locals: {userToken: {username: "test", role: UserRole.User}}};
     const next = err => {
-      expect(err instanceof UnauthorizedError).toBeTruthy();
+      expect(err).toBeInstanceOf(UnauthorizedError);
     };
 
     ensureSelfOrAdmin(req, res, next);

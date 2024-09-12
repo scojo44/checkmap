@@ -1,4 +1,4 @@
-const {db, RegionType} = require('../db')
+const {db, RegionType, UserRole} = require('../db')
 
 /** Determine which region type the list uses.
  * 
@@ -20,4 +20,13 @@ function getListRegion(list) {
   return {regionModel, regionsField};
 }
 
-module.exports = {getListRegion}
+/** Returns true if the logged in user owns the list or is an admin. */
+
+function userOwnsList(list, token) {
+  const isListOwner = token?.username === list.ownerName;
+  const isAdmin = token?.role === UserRole.Admin;
+
+  return isListOwner || isAdmin
+}
+
+module.exports = {getListRegion, userOwnsList}

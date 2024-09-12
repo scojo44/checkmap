@@ -9,4 +9,24 @@ const db = new PrismaClient({
 // Needed for Render with prisma?
 // ssl: {rejectUnauthorized: false}
 
-module.exports = {db, UserRole, RegionType, CountyType}
+// Common select and include statements
+const USER_SELECT_NO_PASSWORD = {
+  username: true,
+  imageURL: true,
+  role: true
+};
+const USER_SELECT_WITH_RELATIONS = {
+  ...USER_SELECT_NO_PASSWORD,
+  lists: true
+};
+const LIST_INCLUDE_REGIONS = {
+  counties: {orderBy: {name: 'asc'}},
+  states: {orderBy: {name: 'asc'}}
+};
+
+module.exports = {
+  db, UserRole, RegionType, CountyType,
+  LIST_INCLUDE_REGIONS,
+  USER_SELECT_NO_PASSWORD,
+  USER_SELECT_WITH_RELATIONS
+}

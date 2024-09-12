@@ -1,6 +1,5 @@
 /** Express backend for Checkmap. */
 const express = require('express')
-const expressListRoutes = require('express-list-routes')
 const morgan = require('morgan')
 const cors = require('cors')
 
@@ -23,14 +22,8 @@ app.use(authenticateJWT);
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
-userRouter.use('/:username/lists', listRouter);
+app.use('/lists', listRouter);
 listRouter.use('/:listID/regions', regionsRouter);
-
-if(process.env.NODE_ENV !== 'test') {
-  console.log('===== Route List =====================');
-  expressListRoutes(app, { color: true });
-  console.log('======================================');
-}
 
 /** Handle 404 errors -- this matches everything */
 app.use((req, res, next) => {

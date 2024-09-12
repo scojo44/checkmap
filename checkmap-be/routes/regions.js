@@ -2,32 +2,30 @@
 const express = require('express')
 const jsonschema = require('jsonschema')
 
-const {NotFoundError, BadRequestError} = require('../expressError')
-const {getListRegion} = require('../helpers/list')
-const {ensureLoggedIn, ensureSelfOrAdmin} = require('../middleware/auth')
+const {NotFoundError, BadRequestError, UnauthorizedError} = require('../expressError')
+const {getListRegion, userOwnsList} = require('../helpers/list')
+const {ensureLoggedIn} = require('../middleware/auth')
 const {db} = require('../db')
 const listRegionAddRemoveSchema = require('../schemas/listRegionAddRemove.json')
 
 const router = express.Router({mergeParams: true});
 
-/** GET /[username]/lists/[listID]/regions => {regionType, regions}
+/** GET /lists/[listID]/regions => {regionType, regions}
  *
  * Returns the list's regions.
  *
  * Authorization required: Login
  **/
 
-router.get("/", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, next) {
+router.get("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const {username} = req.params;
     const listID = +req.params.listID;
 
-    // Verify the user exists
-    if(!await db.user.findUnique({where: {username}, select: {username: true}}))
-      throw new NotFoundError(`User ${username} doesn't exist.`);
-    // Get the list, making sure it exists
-    let list = await db.list.findUnique({where: {id: listID}, select: {id: true, regionType: true}})
+    // Get the list, making sure it exists and user is authorized
+    let list = await db.list.findUnique({where: {id: listID}, select: {id: true, regionType: true, ownerName: true}})
     if(!list) throw new NotFoundError(`List #${listID} doesn't exist.`);
+    if(!userOwnsList(list, res.locals.userToken)) throw new UnauthorizedError();
 
     const {regionModel, regionsField} = getListRegion(list);
 
@@ -43,7 +41,7 @@ router.get("/", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, nex
   }
 });
 
-/** POST /[username]/lists/[listID]/regions => {added: region}
+/** POST /lists/[listID]/regions {regionID} => {added: region}
  *
  * Adds a region to a list.  The list's region type will already be set to states or counties.
  *
@@ -52,7 +50,7 @@ router.get("/", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, nex
  * Authorization required: Login
  **/
 
-router.post("/", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, listRegionAddRemoveSchema);
     if(!validator.valid) {
@@ -64,12 +62,10 @@ router.post("/", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, ne
     const listID = +req.params.listID;
     const regionID = +req.body.regionID;
 
-    // Verify the user exists
-    if(!await db.user.findUnique({where: {username}, select: {username: true}}))
-      throw new NotFoundError(`User ${username} doesn't exist.`);
-    // Get the list, making sure it exists
-    const list = await db.list.findUnique({where: {id: listID}, select: {id: true, regionType: true}})
+    // Get the list, making sure it exists and user is authorized
+    const list = await db.list.findUnique({where: {id: listID}, select: {id: true, regionType: true, ownerName: true}})
     if(!list) throw new NotFoundError(`List #${listID} doesn't exist.`);
+    if(!userOwnsList(list, res.locals.userToken)) throw new UnauthorizedError();
 
     const {regionModel, regionsField} = getListRegion(list);
 
@@ -93,7 +89,7 @@ router.post("/", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, ne
   }
 });
 
-/** DELETE /[username]/lists/[listID]/regions/[regionID] {regionID} => {removed: region}
+/** DELETE /lists/[listID]/regions/[regionID] {regionID} => {removed: region}
  *
  * Removes a region from a list.
  *
@@ -102,7 +98,7 @@ router.post("/", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, ne
  * Authorization required: Login
  **/
 
-router.delete("/:regionID", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, next) {
+router.delete("/:regionID", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate({regionID: +req.params.regionID}, listRegionAddRemoveSchema);
     if(!validator.valid) {
@@ -114,16 +110,14 @@ router.delete("/:regionID", ensureLoggedIn, ensureSelfOrAdmin, async function (r
     const listID = +req.params.listID;
     const regionID = +req.params.regionID;
 
-    // Verify the user exists
-    if(!await db.user.findUnique({where: {username}, select: {username: true}}))
-      throw new NotFoundError(`User ${username} doesn't exist.`);
-    // Get the list, making sure it exists
-    let list = await db.list.findUnique({where: {id: listID}, select: {id: true, regionType: true}})
+    // Get the list, making sure it exists and user is authorized
+    let list = await db.list.findUnique({where: {id: listID}, select: {id: true, regionType: true, ownerName: true}})
     if(!list) throw new NotFoundError(`List #${listID} doesn't exist.`);
+    if(!userOwnsList(list, res.locals.userToken)) throw new UnauthorizedError();
 
     const {regionModel, regionsField} = getListRegion(list);
 
-    // Load the list with the collection of regions
+    // Reload the list with the collection of regions
     list = await db.list.findUnique({where: {id: listID}, include: {[regionsField]: {where: {id: regionID}}}});
 
     // Check the region to remove is in the list

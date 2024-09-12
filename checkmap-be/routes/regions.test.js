@@ -10,7 +10,7 @@ afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
 /**************************************************************/
-describe('GET /users/:username/lists/:id/regions', function () {
+describe('GET /lists/:id/regions', function () {
   const expectedRegions = {
     regionType: RegionType.State,
     regions: [
@@ -21,7 +21,7 @@ describe('GET /users/:username/lists/:id/regions', function () {
   
   test('works for self', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/1/regions`)
+      .get(`/lists/1/regions`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.body).toEqual(expectedRegions);
@@ -29,7 +29,7 @@ describe('GET /users/:username/lists/:id/regions', function () {
 
   test('works for admins', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/1/regions`)
+      .get(`/lists/1/regions`)
       .set('authorization', `Bearer ${tokenUser2Admin}`);
 
     expect(resp.body).toEqual(expectedRegions);
@@ -37,7 +37,7 @@ describe('GET /users/:username/lists/:id/regions', function () {
 
   test('unauth for other non-admin user', async function () {
     const resp = await request(app)
-      .get(`/users/u3/lists/1/regions`)
+      .get(`/lists/3/regions`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(401);
@@ -45,30 +45,22 @@ describe('GET /users/:username/lists/:id/regions', function () {
 
   test('unauth for anon', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/1/regions`);
+      .get(`/lists/1/regions`);
 
     expect(resp.statusCode).toEqual(401);
   });
 
   test('not found if list not found', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/9999999/regions`)
+      .get(`/lists/9999999/regions`)
       .set('authorization', `Bearer ${tokenUser1}`);
-
-    expect(resp.statusCode).toEqual(404);
-  });
-
-  test('not found if user not found', async function () {
-    const resp = await request(app)
-      .get(`/users/xyzzy/lists/1/regions`)
-      .set('authorization', `Bearer ${tokenUser2Admin}`);
 
     expect(resp.statusCode).toEqual(404);
   });
 });
 
 /**************************************************************/
-describe('POST /users/:username/lists/:id/regions', function () {
+describe('POST /lists/:id/regions', function () {
   const utahID = {regionID: 49};
   const utah = {
     id: 49,
@@ -77,7 +69,7 @@ describe('POST /users/:username/lists/:id/regions', function () {
   
   test('works for self', async function () {
     const resp = await request(app)
-      .post(`/users/u1/lists/1/regions`)
+      .post(`/lists/1/regions`)
       .send(utahID)
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -86,7 +78,7 @@ describe('POST /users/:username/lists/:id/regions', function () {
 
   test('works for admins', async function () {
     const resp = await request(app)
-      .post(`/users/u1/lists/1/regions`)
+      .post(`/lists/1/regions`)
       .send(utahID)
       .set('authorization', `Bearer ${tokenUser2Admin}`);
 
@@ -95,7 +87,7 @@ describe('POST /users/:username/lists/:id/regions', function () {
 
   test('unauth for other non-admin user', async function () {
     const resp = await request(app)
-      .post(`/users/u3/lists/1/regions`)
+      .post(`/lists/3/regions`)
       .send(utahID)
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -104,24 +96,15 @@ describe('POST /users/:username/lists/:id/regions', function () {
 
   test('unauth for anon', async function () {
     const resp = await request(app)
-      .post(`/users/u1/lists/1/regions`)
+      .post(`/lists/1/regions`)
       .send(utahID)
 
     expect(resp.statusCode).toEqual(401);
   });
 
-  test('not found if user not found', async function () {
-    const resp = await request(app)
-      .post(`/users/xyzzy/lists/1/regions`)
-      .send(utahID)
-      .set('authorization', `Bearer ${tokenUser2Admin}`);
-
-    expect(resp.statusCode).toEqual(404);
-  });
-
   test('not found if list not found', async function () {
     const resp = await request(app)
-      .post(`/users/u1/lists/9999/add`)
+      .post(`/lists/9999/add`)
       .send(utahID)
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -130,7 +113,7 @@ describe('POST /users/:username/lists/:id/regions', function () {
 
   test('not found if region not found', async function () {
     const resp = await request(app)
-      .post(`/users/u1/lists/1/regions`)
+      .post(`/lists/1/regions`)
       .send({regionID: 99999999})
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -139,7 +122,7 @@ describe('POST /users/:username/lists/:id/regions', function () {
 
   test('bad request if negative region ID', async function () {
     const resp = await request(app)
-      .post(`/users/u1/lists/1/regions`)
+      .post(`/lists/1/regions`)
       .send({regionID: -123})
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -148,8 +131,8 @@ describe('POST /users/:username/lists/:id/regions', function () {
 
   test('bad request if region not an integer', async function () {
     const resp = await request(app)
-      .post(`/users/u1/lists/1/regions`)
-      .send({regionID: '123'})
+      .post(`/lists/1/regions`)
+      .send({regionID: 'xyzzy'})
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(400);
@@ -157,7 +140,7 @@ describe('POST /users/:username/lists/:id/regions', function () {
 });
 
 /**************************************************************/
-describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () {
+describe('DELETE /lists/:listID/regions/:regionID', function () {
   const washington = {
     id: 53,
     name: 'Washington'
@@ -165,7 +148,7 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
   
   test('works for self', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1/regions/53`)
+      .delete(`/lists/1/regions/53`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.body).toEqual({removed: washington});
@@ -173,7 +156,7 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
 
   test('works for admins', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1/regions/53`)
+      .delete(`/lists/1/regions/53`)
       .set('authorization', `Bearer ${tokenUser2Admin}`);
 
     expect(resp.body).toEqual({removed: washington});
@@ -181,7 +164,7 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
 
   test('unauth for other non-admin user', async function () {
     const resp = await request(app)
-      .delete(`/users/u3/lists/1/regions/53`)
+      .delete(`/lists/3/regions/53`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(401);
@@ -189,22 +172,14 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
 
   test('unauth for anon', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1/regions/53`);
+      .delete(`/lists/1/regions/53`);
 
     expect(resp.statusCode).toEqual(401);
   });
 
-  test('not found if user not found', async function () {
-    const resp = await request(app)
-      .delete(`/users/xyzzy/lists/1/regions/53`)
-      .set('authorization', `Bearer ${tokenUser2Admin}`);
-
-    expect(resp.statusCode).toEqual(404);
-  });
-
   test('not found if list not found', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/9999/regions/53`)
+      .delete(`/lists/9999/regions/53`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(404);
@@ -212,7 +187,7 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
 
   test('not found if region exists but not in list', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1/regions/32`) // Nevada
+      .delete(`/lists/1/regions/32`) // Nevada
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(404);
@@ -220,7 +195,7 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
 
   test('not found if region not found', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1/regions/99999999`)
+      .delete(`/lists/1/regions/99999999`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(404);
@@ -228,7 +203,7 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
 
   test('bad request if negative region ID', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1/regions/-24`)
+      .delete(`/lists/1/regions/-24`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(400);
@@ -236,7 +211,7 @@ describe('DELETE /users/:username/lists/:listID/regions/:regionID', function () 
 
   test('bad request if region not an integer', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1/regions/xyzzy`)
+      .delete(`/lists/1/regions/xyzzy`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(400);

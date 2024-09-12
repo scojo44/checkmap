@@ -10,74 +10,7 @@ afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
 /**************************************************************/
-describe('GET /users/:username/lists', function () {
-  const expectedLists = [
-    {
-      id: 1,
-      name: 'Test List 1a',
-      description: 'This is a test list.',
-      ownerName: 'u1',
-      regionType: RegionType.State,
-      counties: [],
-      states: [
-        {id: 16, name: 'Idaho', boundary: expect.any(Object)},
-        {id: 30, name: 'Montana', boundary: expect.any(Object)},
-        {id: 53, name: 'Washington', boundary: expect.any(Object)}
-      ]
-    },
-    {
-      id: 2,
-      name: 'Test List 1b',
-      description: 'This is another test list.',
-      ownerName: 'u1',
-      regionType: RegionType.County,
-      counties: [],
-      states: []
-    }
-  ]
-  
-  test('works for self', async function () {
-    const resp = await request(app)
-      .get(`/users/u1/lists`)
-      .set('authorization', `Bearer ${tokenUser1}`);
-
-    expect(resp.body).toEqual({lists: expectedLists});
-  });
-
-  test('works for admins', async function () {
-    const resp = await request(app)
-      .get(`/users/u1/lists`)
-      .set('authorization', `Bearer ${tokenUser2Admin}`);
-
-    expect(resp.body).toEqual({lists: expectedLists});
-  });
-
-  test('unauth for other non-admin user', async function () {
-    const resp = await request(app)
-      .get(`/users/u3/lists`)
-      .set('authorization', `Bearer ${tokenUser1}`);
-
-    expect(resp.statusCode).toEqual(401);
-  });
-
-  test('unauth for anon', async function () {
-    const resp = await request(app)
-      .get(`/users/u1/lists`);
-
-    expect(resp.statusCode).toEqual(401);
-  });
-
-  test('not found if user not found', async function () {
-    const resp = await request(app)
-      .get(`/users/xyzzy/lists`)
-      .set('authorization', `Bearer ${tokenUser2Admin}`);
-
-    expect(resp.statusCode).toEqual(404);
-  });
-});
-
-/**************************************************************/
-describe('GET /users/:username/lists/:id', function () {
+describe('GET /lists/:id', function () {
   const expectedList = {
     id: 1,
     name: 'Test List 1a',
@@ -89,12 +22,17 @@ describe('GET /users/:username/lists/:id', function () {
       {id: 16, name: 'Idaho', boundary: expect.any(Object)},
       {id: 30, name: 'Montana', boundary: expect.any(Object)},
       {id: 53, name: 'Washington', boundary: expect.any(Object)}
-    ]
+    ],
+    owner: {
+      username: 'u1',
+      imageURL: 'u1.jpeg',
+      role: UserRole.User,
+    }
   };
 
   test('works for admins', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/1`)
+      .get(`/lists/1`)
       .set('authorization', `Bearer ${tokenUser2Admin}`);
 
     expect(resp.body).toEqual({list: expectedList});
@@ -102,7 +40,7 @@ describe('GET /users/:username/lists/:id', function () {
 
   test('works for self', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/1`)
+      .get(`/lists/1`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.body).toEqual({list: expectedList});
@@ -110,7 +48,7 @@ describe('GET /users/:username/lists/:id', function () {
 
   test('unauth for other non-admin user', async function () {
     const resp = await request(app)
-      .get(`/users/u3/lists/3`)
+      .get(`/lists/3`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(401);
@@ -118,14 +56,14 @@ describe('GET /users/:username/lists/:id', function () {
 
   test('unauth for anon', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/1`);
+      .get(`/lists/1`);
 
     expect(resp.statusCode).toEqual(401);
   });
 
   test('not found for non-existing list', async function () {
     const resp = await request(app)
-      .get(`/users/u1/lists/9999`)
+      .get(`/lists/9999`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(404);
@@ -133,67 +71,7 @@ describe('GET /users/:username/lists/:id', function () {
 });
 
 /**************************************************************/
-describe('POST /users/:username/lists', function () {
-  const newList = {
-    name: 'New List',
-    description: 'This is a new test list.',
-    regionType: RegionType.County
-  };
-  const createdList = {
-    ...newList,
-    id: 4,
-    ownerName: 'u1',
-    states: [],
-    counties: []
-  }
-  
-  test('works for self', async function () {
-    const resp = await request(app)
-      .post(`/users/u1/lists`)
-      .send(newList)
-      .set('authorization', `Bearer ${tokenUser1}`);
-
-    expect(resp.body).toEqual({list: createdList});
-  });
-
-  test('works for admins', async function () {
-    const resp = await request(app)
-      .post(`/users/u1/lists`)
-      .send(newList)
-      .set('authorization', `Bearer ${tokenUser2Admin}`);
-
-    expect(resp.body).toEqual({list: createdList});
-  });
-
-  test('unauth for other non-admin user', async function () {
-    const resp = await request(app)
-      .post(`/users/u3/lists`)
-      .send(newList)
-      .set('authorization', `Bearer ${tokenUser1}`);
-
-    expect(resp.statusCode).toEqual(401);
-  });
-
-  test('unauth for anon', async function () {
-    const resp = await request(app)
-      .post(`/users/u1/lists`)
-      .send(newList);
-
-    expect(resp.statusCode).toEqual(401);
-  });
-
-  test('not found if user not found', async function () {
-    const resp = await request(app)
-      .post(`/users/xyzzy/lists`)
-      .send(newList)
-      .set('authorization', `Bearer ${tokenUser2Admin}`);
-
-    expect(resp.statusCode).toEqual(404);
-  });
-});
-
-/**************************************************************/
-describe('PATCH /users/:username/lists/:id', () => {
+describe('PATCH /lists/:id', () => {
   const expectedList = {
     id: 1,
     name: 'Test List 1a',
@@ -204,7 +82,7 @@ describe('PATCH /users/:username/lists/:id', () => {
 
   test('works for self', async function () {
     const resp = await request(app)
-      .patch(`/users/u1/lists/1`)
+      .patch(`/lists/1`)
       .send({description: 'This is a better description.'})
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -213,7 +91,7 @@ describe('PATCH /users/:username/lists/:id', () => {
 
   test('works for admins', async function () {
     const resp = await request(app)
-      .patch(`/users/u1/lists/1`)
+      .patch(`/lists/1`)
       .send({description: 'This is a better description.'})
       .set('authorization', `Bearer ${tokenUser2Admin}`);
 
@@ -222,7 +100,7 @@ describe('PATCH /users/:username/lists/:id', () => {
 
   test('unauth for other non-admin user', async function () {
     const resp = await request(app)
-      .patch(`/users/u3/lists/3`)
+      .patch(`/lists/3`)
       .send({description: 'This is a better description.'})
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -231,7 +109,7 @@ describe('PATCH /users/:username/lists/:id', () => {
 
   test('unauth for anon', async function () {
     const resp = await request(app)
-      .patch(`/users/u1/lists/1`)
+      .patch(`/lists/1`)
       .send({description: 'This is a better description.'})
 
     expect(resp.statusCode).toEqual(401);
@@ -239,7 +117,7 @@ describe('PATCH /users/:username/lists/:id', () => {
 
   test('not found for non-existing list', async function () {
     const resp = await request(app)
-      .patch(`/users/u1/lists/9999`)
+      .patch(`/lists/9999`)
       .send({description: 'This is a better description.'})
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -248,7 +126,7 @@ describe('PATCH /users/:username/lists/:id', () => {
 
   test('bad request if invalid data', async function () {
     const resp = await request(app)
-      .patch(`/users/u1/lists/1`)
+      .patch(`/lists/1`)
       .send({name: 'This name is tooooooooo looooooooooooong'})
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -257,7 +135,7 @@ describe('PATCH /users/:username/lists/:id', () => {
 
   test('bad request if no data', async function () {
     const resp = await request(app)
-      .patch(`/users/u1/lists/1`)
+      .patch(`/lists/1`)
       .send({})
       .set('authorization', `Bearer ${tokenUser1}`);
 
@@ -266,10 +144,10 @@ describe('PATCH /users/:username/lists/:id', () => {
 });
 
 /**************************************************************/
-describe('DELETE /users/:username/lists/:id', function () {
+describe('DELETE /lists/:id', function () {
   test('works for self', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1`)
+      .delete(`/lists/1`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.body).toEqual({deleted: 1});
@@ -277,7 +155,7 @@ describe('DELETE /users/:username/lists/:id', function () {
 
   test('works for admins', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1`)
+      .delete(`/lists/1`)
       .set('authorization', `Bearer ${tokenUser2Admin}`);
 
     expect(resp.body).toEqual({deleted: 1});
@@ -285,7 +163,7 @@ describe('DELETE /users/:username/lists/:id', function () {
 
   test('unauth for other non-admin user', async function () {
     const resp = await request(app)
-      .delete(`/users/u3/lists/3`)
+      .delete(`/lists/3`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(401);
@@ -293,14 +171,14 @@ describe('DELETE /users/:username/lists/:id', function () {
 
   test('unauth for anon', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/1`);
+      .delete(`/lists/1`);
 
     expect(resp.statusCode).toEqual(401);
   });
 
   test('not found for non-existing list', async function () {
     const resp = await request(app)
-      .delete(`/users/u1/lists/9999`)
+      .delete(`/lists/9999`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
     expect(resp.statusCode).toEqual(404);

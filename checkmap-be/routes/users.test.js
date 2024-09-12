@@ -358,3 +358,131 @@ describe('DELETE /users/:username', function () {
     expect(resp.statusCode).toEqual(404);
   });
 });
+
+/**************************************************************/
+describe('GET /users/:username/lists', function () {
+  const expectedLists = [
+    {
+      id: 1,
+      name: 'Test List 1a',
+      description: 'This is a test list.',
+      ownerName: 'u1',
+      regionType: RegionType.State,
+      counties: [],
+      states: [
+        {id: 16, name: 'Idaho', boundary: expect.any(Object)},
+        {id: 30, name: 'Montana', boundary: expect.any(Object)},
+        {id: 53, name: 'Washington', boundary: expect.any(Object)}
+      ]
+    },
+    {
+      id: 2,
+      name: 'Test List 1b',
+      description: 'This is another test list.',
+      ownerName: 'u1',
+      regionType: RegionType.County,
+      counties: [],
+      states: []
+    }
+  ]
+  
+  test('works for self', async function () {
+    const resp = await request(app)
+      .get(`/users/u1/lists`)
+      .set('authorization', `Bearer ${tokenUser1}`);
+
+    expect(resp.body).toEqual({lists: expectedLists});
+  });
+
+  test('works for admins', async function () {
+    const resp = await request(app)
+      .get(`/users/u1/lists`)
+      .set('authorization', `Bearer ${tokenUser2Admin}`);
+
+    expect(resp.body).toEqual({lists: expectedLists});
+  });
+
+  test('unauth for other non-admin user', async function () {
+    const resp = await request(app)
+      .get(`/users/u3/lists`)
+      .set('authorization', `Bearer ${tokenUser1}`);
+
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test('unauth for anon', async function () {
+    const resp = await request(app)
+      .get(`/users/u1/lists`);
+
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test('not found if user not found', async function () {
+    const resp = await request(app)
+      .get(`/users/xyzzy/lists`)
+      .set('authorization', `Bearer ${tokenUser2Admin}`);
+
+    expect(resp.statusCode).toEqual(404);
+  });
+});
+
+
+/**************************************************************/
+describe('POST /users/:username/lists', function () {
+  const newList = {
+    name: 'New List',
+    description: 'This is a new test list.',
+    regionType: RegionType.County
+  };
+  const createdList = {
+    ...newList,
+    id: 4,
+    ownerName: 'u1',
+    states: [],
+    counties: []
+  }
+  
+  test('works for self', async function () {
+    const resp = await request(app)
+      .post(`/users/u1/lists`)
+      .send(newList)
+      .set('authorization', `Bearer ${tokenUser1}`);
+
+    expect(resp.body).toEqual({list: createdList});
+  });
+
+  test('works for admins', async function () {
+    const resp = await request(app)
+      .post(`/users/u1/lists`)
+      .send(newList)
+      .set('authorization', `Bearer ${tokenUser2Admin}`);
+
+    expect(resp.body).toEqual({list: createdList});
+  });
+
+  test('unauth for other non-admin user', async function () {
+    const resp = await request(app)
+      .post(`/users/u3/lists`)
+      .send(newList)
+      .set('authorization', `Bearer ${tokenUser1}`);
+
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test('unauth for anon', async function () {
+    const resp = await request(app)
+      .post(`/users/u1/lists`)
+      .send(newList);
+
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test('not found if user not found', async function () {
+    const resp = await request(app)
+      .post(`/users/xyzzy/lists`)
+      .send(newList)
+      .set('authorization', `Bearer ${tokenUser2Admin}`);
+
+    expect(resp.statusCode).toEqual(404);
+  });
+});
