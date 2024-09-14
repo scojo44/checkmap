@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Home Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="Home"
+  >
+    <h2>
+      Welcome, Testuser!
+    </h2>
+  </section>
+</DocumentFragment>
+`;

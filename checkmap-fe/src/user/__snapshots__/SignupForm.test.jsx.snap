@@ -1,0 +1,60 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SignupForm Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <form
+    class="SignupForm"
+  >
+    <h2>
+      Sign Up
+    </h2>
+    <p>
+      <label
+        for="username"
+      >
+        Username: 
+      </label>
+      <input
+        name="username"
+      />
+    </p>
+    <p>
+      <label
+        for="password"
+      >
+        Password: 
+      </label>
+      <input
+        name="password"
+        type="password"
+      />
+    </p>
+    <p>
+      <label
+        for="confirm"
+      >
+        Confirm Password: 
+      </label>
+      <input
+        name="confirm"
+        type="password"
+      />
+    </p>
+    <p>
+      <label
+        for="imageURL"
+      >
+        Image URL (optional): 
+      </label>
+      <input
+        name="imageURL"
+      />
+    </p>
+    <button
+      type="submit"
+    >
+      Sign Up
+    </button>
+  </form>
+</DocumentFragment>
+`;

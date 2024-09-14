@@ -1,0 +1,28 @@
+.Alert {
+  margin: .5rem 2rem;
+}
+.Alert p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: .5rem;
+  margin: .25rem;
+  padding: .5rem;
+}
+.Alert .success {
+  color: white;
+  background-color: darkgreen;
+}
+.Alert .info {
+  color: white;
+  background-color: darkblue;
+}
+.Alert .error {
+  color: white;
+  background-color: maroon;
+}
+.Alert button {
+  color: white;
+  background-color: rgba(0,0,0,10%); 
+  border: none;
+}
