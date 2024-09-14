@@ -14,8 +14,7 @@
       "maxLength": 30
     },
     "description": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "regionType": {
       "enum": ["State", "County"]

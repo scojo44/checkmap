@@ -8,8 +8,9 @@ const {NotFoundError} = require('./expressError')
 const {authenticateJWT} = require('./middleware/auth')
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/users')
-const listRouter = require('./routes/lists')
 const regionsRouter = require('./routes/regions')
+const listRouter = require('./routes/lists')
+const listRegionsRouter = require('./routes/listRegions')
 
 const app = express();
 
@@ -22,8 +23,9 @@ app.use(authenticateJWT);
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/regions", regionsRouter);
 app.use('/lists', listRouter);
-listRouter.use('/:listID/regions', regionsRouter);
+listRouter.use('/:listID/regions', listRegionsRouter);
 
 /** Handle 404 errors -- this matches everything */
 app.use((req, res, next) => {

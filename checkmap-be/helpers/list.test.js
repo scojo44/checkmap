@@ -2,8 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const {commonBeforeAll, commonBeforeEach, commonAfterEach, commonAfterAll, tokenUser1, tokenUser2Admin} = require('../_testCommon')
 const {SECRET_KEY} = require('../config')
-const {db} = require('../db')
-const { UnauthorizedError } = require('../expressError')
+const {db, RegionType} = require('../db')
 const {getListRegion, userOwnsList} = require('./list')
 
 beforeAll(commonBeforeAll);
@@ -14,8 +13,7 @@ afterAll(commonAfterAll);
 /**************************************************************/
 describe("getListRegion", () => {
   test('works', async function () {
-    const list = await db.list.findUnique({where: {id: 1}, select: {regionType: true}});
-    const {regionModel, regionsField} = getListRegion(list);
+    const {regionModel, regionsField} = getListRegion(RegionType.State);
 
     expect(regionModel).toEqual('state');
     expect(regionsField).toEqual('states');

@@ -26,7 +26,7 @@ function seedStates() {
         data: {
           id: +geoid,
           name,
-          boundary: state.geometry
+          boundary: state
         }
       });
   });
@@ -75,7 +75,7 @@ function seedCounties() {
         name,
         fullName: namelsad,
         stateID: +statefp,
-        boundary: county.geometry
+        boundary: county
       }
     });
   });

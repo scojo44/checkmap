@@ -10,6 +10,10 @@ const db = new PrismaClient({
 // ssl: {rejectUnauthorized: false}
 
 // Common select and include statements
+const LIST_INCLUDE_REGIONS = {
+  counties: {orderBy: {name: 'asc'}},
+  states: {orderBy: {name: 'asc'}}
+};
 const USER_SELECT_NO_PASSWORD = {
   username: true,
   imageURL: true,
@@ -17,11 +21,7 @@ const USER_SELECT_NO_PASSWORD = {
 };
 const USER_SELECT_WITH_RELATIONS = {
   ...USER_SELECT_NO_PASSWORD,
-  lists: true
-};
-const LIST_INCLUDE_REGIONS = {
-  counties: {orderBy: {name: 'asc'}},
-  states: {orderBy: {name: 'asc'}}
+  lists: {include: LIST_INCLUDE_REGIONS}
 };
 
 module.exports = {

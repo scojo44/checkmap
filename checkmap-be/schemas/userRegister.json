@@ -14,8 +14,7 @@
       "maxLength": 20
     },
     "imageURL": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     }
   },
   "additionalProperties": false,

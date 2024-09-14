@@ -1,18 +1,13 @@
 const {db, RegionType, UserRole} = require('../db')
 
-/** Determine which region type the list uses.
- * 
- * Returns the region model name (county) and region database table/field name (counties)
- * 
- * Throws a NotFoundError the list doesn't exist.
- */
+/** Return the model name (county) and region database table/field name (counties) for the given RegionTyp. */
 
-function getListRegion(list) {
+function getListRegion(regionType) {
   let regionModel;
   let regionsField;
 
   // Figure out which model and field/table names to use.
-  switch(list.regionType) {
+  switch(regionType) {
     case RegionType.County:  regionModel = 'county';  regionsField = 'counties';  break;
     case RegionType.State:   regionModel = 'state';   regionsField = 'states';    break;
   }
