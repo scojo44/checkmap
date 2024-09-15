@@ -1,12 +1,7 @@
 #root {
-  /* display: flex;
-  flex-direction: column;
-  min-height: 100vh; */
+  min-height: 100vh;
 }
 main {
-  /* display: flex;
-  flex: 1;
-  max-height: calc(100vh - 3.75rem); */
 }
 .leaflet-container {
   height: 100vh;
