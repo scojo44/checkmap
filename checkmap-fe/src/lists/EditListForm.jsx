@@ -7,13 +7,17 @@ export default function EditListForm({list, update, cancel}) {
   const {register, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
       name: list.name,
-      description: list.description
+      description: list.description,
+      color: list.color
     }
   });
 
   return (
     <form className="EditListForm" onSubmit={handleSubmit(async data => await update(data))}>
-      <FormField name="name" label="Name" {...{register, errors}} validation={{required: 'Name cannot be blank'}}/>
+      <div>
+        <FormField name="name" label="Name" {...{register, errors}} validation={{required: 'Name cannot be blank'}}/>
+        <FormField inputType="color" name="color" label="Fill Color" {...{register, errors}}/>
+      </div>
       <FormField name="description" label="Description (optional)" {...{register, errors}}/>
       <button type="submit">Save</button>
       <button type="button" onClick={cancel}>Cancel</button>

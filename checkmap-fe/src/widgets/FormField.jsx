@@ -4,7 +4,7 @@ export default function FormField({name, label, inputType = "text", inputAttribu
   const type = inputType != "text"? {type: inputType} : {}; // Leaves out type="text"
 
   return (
-    <p>
+    <p className="FormField">
       <label htmlFor={name}>{label}: </label>
       <input {...type} {...inputAttributes} readOnly={readOnly} {...register(name, validation)} />
       {errors[name] && <span className="input-error"> {errors[name].message}</span>}

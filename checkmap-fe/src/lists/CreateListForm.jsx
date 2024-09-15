@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form'
 import CheckMapAPI from '../api'
 import UserContext from '../UserContext'
 import FormField from '../widgets/FormField';
-// import './ProfileForm.css'
+import './CreateListForm.css'
 
 export default function CreateListForm({}) {
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ export default function CreateListForm({}) {
       <h2>Create a New List</h2>
       <FormField name="name" label="Name" {...{register, errors}} validation={{required: 'Please enter a name for your list'}}/>
       <FormField name="description" label="Description (optional)" {...{register, errors}}/>
+      <FormField inputType="color" name="color" label="Fill Color" {...{register, errors}}/>
       <p>
         <label htmlFor="regionType">Region Type: </label>
         <select {...register("regionType")}>

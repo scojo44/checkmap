@@ -30,6 +30,17 @@ export default function Map(props) {
     currentList? getAllRegions() : setAllRegions(null);
   }, [currentList]);
 
+  const mapStyles = {
+    color: 'black',
+    fillOpacity: 0,
+    weight: 2,
+    opacity: .3
+  }
+  const listStyles = {
+    fillOpacity: .5,
+    fillColor: currentList.color
+  }
+
   return (
     <>
     <MapContainer center={[40, -96]} zoom={5}>
@@ -58,9 +69,8 @@ export default function Map(props) {
         }}
       />
       {allRegions && allRegions.regions.map(region => {
-        let regionColor = 'mediumpurple';
-        if(listRegions.find(lr => lr.id === region.id)) regionColor = 'cornflowerblue';
-        return <GeoJSON key={region.id} data={region.boundary} style={{color: regionColor}}
+        const regionStyles = listRegions.find(lr => lr.id === region.id)? listStyles: {}; // Set marked region fill color
+        return <GeoJSON key={region.id} data={region.boundary} style={{...mapStyles, ...regionStyles}}
           eventHandlers={{click: handleClick}}
         />
       })}

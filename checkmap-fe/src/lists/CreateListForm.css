@@ -1,0 +1,4 @@
+.CreateListForm input[name="description"] {
+  display: block;
+  width: 95%;
+}

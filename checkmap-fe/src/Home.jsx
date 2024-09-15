@@ -32,7 +32,7 @@ export default function Home() {
     return;
   }
 
-  const pathOptions = {
+  const mapStyles = {
     color: 'blue',
     fill: false,
     weight: 2,
@@ -41,12 +41,11 @@ export default function Home() {
 
   return (
     <MapContainer center={[37, -96]} zoom={5}>
-      <h2>Welcome!</h2>
       <TileLayer
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      {counties && counties.regions.map(region => <GeoJSON key={region.id} data={region.boundary} style={pathOptions}/>)}
+      {counties && counties.regions.map(region => <GeoJSON key={region.id} data={region.boundary} style={mapStyles}/>)}
     </MapContainer>
   );
 }
