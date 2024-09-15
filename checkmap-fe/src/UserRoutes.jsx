@@ -7,5 +7,5 @@ import UserContext from "./UserContext"
 export default function UserRoutes() {
   const {user} = useContext(UserContext);
 
-  return user? <Outlet /> : <Navigate to="/login" />;
+  return user? <Outlet /> : <Navigate to="/" />;
 }
