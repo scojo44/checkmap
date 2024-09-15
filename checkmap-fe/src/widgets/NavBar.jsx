@@ -11,7 +11,7 @@ export default function NavBar({logout}) {
 
   return (
     <nav className="NavBar">
-      <Link to={homeURL}>CheckMap</Link>
+      <Link to={homeURL} className="logo">CheckMap</Link>
       {user
         ? <>
             {user.lists.length > 0 && <NavLink to="/lists" state={{previousLocation: location}}>Your Lists</NavLink>}

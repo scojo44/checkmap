@@ -17,8 +17,8 @@
 .NavBar a:visited {
   color: white;
 }
-.NavBar a:first-child { /* Logo link */
+.NavBar .logo {
   flex: 1;
-  font-style: italic;
+  font-family: Lora;
   font-size: 1.25rem;
 }

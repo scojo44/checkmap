@@ -6,7 +6,8 @@
   top: 10%;
   width: 50%;
   margin: auto;
-  background-color: white;
+  color: white;
+  background-color: rgba(0, 0, 0, 70%);
   border-radius: 1rem;
   padding: 1rem;
 }
@@ -17,6 +18,7 @@
   background-color: rgba(0, 0, 0, 50%);
 }
 .Home .landing h1 {
+  font-family: Lora;
   text-align: center;
   font-size: 3rem;
   margin-top: 0;
