@@ -16,6 +16,9 @@
     "description": {
       "type": "string"
     },
+    "color": {
+      "type": "string"
+    },
     "regionType": {
       "enum": ["State", "County"]
     }

@@ -15,6 +15,7 @@ describe('GET /lists/:id', function () {
     id: 1,
     name: 'Test List 1a',
     description: 'This is a test list.',
+    color: 'cornflowerblue',
     ownerName: 'u1',
     regionType: RegionType.State,
     counties: [],
@@ -76,6 +77,7 @@ describe('PATCH /lists/:id', () => {
     id: 1,
     name: 'Test List 1a',
     description: 'This is a better description.',
+    color: 'cornflowerblue',
     regionType: RegionType.State,
     ownerName: 'u1'
   };

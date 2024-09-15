@@ -64,7 +64,8 @@ describe('POST /lists/:id/regions', function () {
   const utahID = {regionID: 49};
   const utah = {
     id: 49,
-    name: 'Utah'
+    name: 'Utah',
+    boundary: expect.any(Object)
   }
   
   test('works for self', async function () {

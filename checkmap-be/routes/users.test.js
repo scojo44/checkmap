@@ -23,15 +23,21 @@ describe('GET /users', function () {
         id: 1,
         name: 'Test List 1a',
         description: 'This is a test list.',
+        color: 'cornflowerblue',
         regionType: RegionType.State,
-        ownerName: 'u1'
+        ownerName: 'u1',
+        states: expect.any(Array),
+        counties: []
       },
       {
         id: 2,
         name: 'Test List 1b',
         description: 'This is another test list.',
+        color: 'cornflowerblue',
         regionType: RegionType.County,
-        ownerName: 'u1'
+        ownerName: 'u1',
+        states: [],
+        counties: []
       }
     ]
   };
@@ -44,8 +50,11 @@ describe('GET /users', function () {
         id: 3,
         name: 'Test List 2',
         description: 'This is also a test list.',
+        color: 'cornflowerblue',
         regionType: RegionType.County,
-        ownerName: 'u2'
+        ownerName: 'u2',
+        states: [],
+        counties: []
       }
     ]
   };
@@ -91,15 +100,21 @@ describe('GET /users/:username', function () {
         id: 1,
         name: 'Test List 1a',
         description: 'This is a test list.',
+        color: 'cornflowerblue',
         regionType: RegionType.State,
-        ownerName: 'u1'
+        ownerName: 'u1',
+        states: expect.any(Array),
+        counties: []
       },
       {
         id: 2,
         name: 'Test List 1b',
         description: 'This is another test list.',
+        color: 'cornflowerblue',
         regionType: RegionType.County,
-        ownerName: 'u1'
+        ownerName: 'u1',
+        states: [],
+        counties: []
       }
     ]
   };
@@ -109,7 +124,7 @@ describe('GET /users/:username', function () {
       .get(`/users/u1`)
       .set('authorization', `Bearer ${tokenUser2Admin}`);
 
-    expect(resp.body).toEqual({ user: expectedUser });
+    expect(resp.body).toEqual({user: expectedUser});
   });
 
   test('works for self', async function () {
@@ -117,7 +132,7 @@ describe('GET /users/:username', function () {
       .get(`/users/u1`)
       .set('authorization', `Bearer ${tokenUser1}`);
 
-    expect(resp.body).toEqual({ user: expectedUser });
+    expect(resp.body).toEqual({user: expectedUser});
   });
 
   test('unauth for other non-admin user', async function () {
@@ -367,6 +382,7 @@ describe('GET /users/:username/lists', function () {
       name: 'Test List 1a',
       description: 'This is a test list.',
       ownerName: 'u1',
+      color: 'cornflowerblue',
       regionType: RegionType.State,
       counties: [],
       states: [
@@ -380,6 +396,7 @@ describe('GET /users/:username/lists', function () {
       name: 'Test List 1b',
       description: 'This is another test list.',
       ownerName: 'u1',
+      color: 'cornflowerblue',
       regionType: RegionType.County,
       counties: [],
       states: []
@@ -432,12 +449,14 @@ describe('POST /users/:username/lists', function () {
   const newList = {
     name: 'New List',
     description: 'This is a new test list.',
+    color: 'indigo',
     regionType: RegionType.County
   };
   const createdList = {
     ...newList,
     id: 4,
     ownerName: 'u1',
+    color: 'indigo',
     states: [],
     counties: []
   }
