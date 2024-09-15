@@ -65,7 +65,7 @@ model List {
   id          Int        @id @default(autoincrement())
   name        String
   description String?
-  color       String     @default("6495ed") // cornflowerblue
+  color       String     @default("#6495ed") // cornflowerblue
   regionType  RegionType @map("region_type")
   ownerName   String     @map("owner_name")
   owner       User       @relation(fields: [ownerName], references: [username], onDelete: Cascade)
