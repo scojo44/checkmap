@@ -1,0 +1,13 @@
+.EditListForm {
+  border: 2px solid lightgray;
+  border-radius: .5rem;
+  padding-left: .5rem;
+  padding-bottom: .2rem;
+}
+.EditListForm p {
+  margin: .5rem;
+}
+.EditListForm input[name="description"] {
+  display: block;
+  width: 95%;
+}
