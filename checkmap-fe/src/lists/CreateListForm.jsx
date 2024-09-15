@@ -1,9 +1,14 @@
 import React, {useContext} from 'react'
+import {useNavigate} from 'react-router-dom';
 import {useForm} from 'react-hook-form'
+import CheckMapAPI from '../api'
+import UserContext from '../UserContext'
 import FormField from '../widgets/FormField';
 // import './ProfileForm.css'
 
-export default function CreateListForm({addList}) {
+export default function CreateListForm({}) {
+  const navigate = useNavigate();
+  const {user, setCurrentList, showAlert} = useContext(UserContext);
   const {register, handleSubmit, formState: {errors}} = useForm();
 
   return (
@@ -20,6 +25,23 @@ export default function CreateListForm({addList}) {
         {errors.regionType && <span className="input-error"> {errors.regionType.message}</span>}
       </p>
       <button type="submit">Submit</button>
+      <button type="button" onClick={hideForm}>Cancel</button>
     </form>
   );
+
+  async function addList(newList) {
+    try {
+      const list = await CheckMapAPI.createList(user.username, newList);
+      user.lists.push(list);
+      setCurrentList(list);
+      hideForm();
+    }
+    catch(e) {
+      showAlert('error', 'Error creating list:' + e);
+    }
+  }
+
+  function hideForm() {
+    navigate('/map');
+  }
 }
