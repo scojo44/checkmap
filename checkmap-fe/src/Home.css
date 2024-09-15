@@ -1,2 +1,23 @@
 .Home {
+  position: relative;
+}
+.Home .landing {
+  position: relative;
+  top: 10%;
+  width: 50%;
+  margin: auto;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.Home .dimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 50%);
+}
+.Home .landing h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 0;
 }

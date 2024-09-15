@@ -1,9 +1,12 @@
 #root {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-main {
+#root > main {
+  flex: auto;
+  display: flex;
 }
 .leaflet-container {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 }
