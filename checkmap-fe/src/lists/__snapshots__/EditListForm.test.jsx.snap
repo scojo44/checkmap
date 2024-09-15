@@ -1,0 +1,59 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EditListForm Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <form
+    class="EditListForm"
+  >
+    <div>
+      <p
+        class="FormField"
+      >
+        <label
+          for="name"
+        >
+          Name: 
+        </label>
+        <input
+          name="name"
+        />
+      </p>
+      <p
+        class="FormField"
+      >
+        <label
+          for="color"
+        >
+          Fill Color: 
+        </label>
+        <input
+          name="color"
+          type="color"
+        />
+      </p>
+    </div>
+    <p
+      class="FormField"
+    >
+      <label
+        for="description"
+      >
+        Description (optional): 
+      </label>
+      <input
+        name="description"
+      />
+    </p>
+    <button
+      type="submit"
+    >
+      Save
+    </button>
+    <button
+      type="button"
+    >
+      Cancel
+    </button>
+  </form>
+</DocumentFragment>
+`;

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Home Tests > Matches snapshot 1`] = `
+exports[`Map Tests > Matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
@@ -26,7 +26,7 @@ exports[`Home Tests > Matches snapshot 1`] = `
               alt=""
               class="leaflet-tile"
               src="https://b.tile.openstreetmap.org/5/7/12.png"
-              style="width: 256px; height: 256px; left: -119px; top: -117px;"
+              style="width: 256px; height: 256px; left: -119px; top: -29px;"
             />
           </div>
         </div>

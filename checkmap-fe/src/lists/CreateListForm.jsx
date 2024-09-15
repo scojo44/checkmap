@@ -6,7 +6,7 @@ import UserContext from '../UserContext'
 import FormField from '../widgets/FormField';
 import './CreateListForm.css'
 
-export default function CreateListForm({}) {
+export default function CreateListForm(props) {
   const navigate = useNavigate();
   const {user, setCurrentList, showAlert} = useContext(UserContext);
   const {register, handleSubmit, formState: {errors}} = useForm();

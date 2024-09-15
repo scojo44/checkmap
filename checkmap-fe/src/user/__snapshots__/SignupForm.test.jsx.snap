@@ -8,7 +8,9 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
     <h2>
       Sign Up
     </h2>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="username"
       >
@@ -18,29 +20,35 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
         name="username"
       />
     </p>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="password"
       >
-        Password: 
+        New Password (leave blank to not change): 
       </label>
       <input
         name="password"
         type="password"
       />
     </p>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="confirm"
       >
-        Confirm Password: 
+        Confirm New Password: 
       </label>
       <input
         name="confirm"
         type="password"
       />
     </p>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="imageURL"
       >

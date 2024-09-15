@@ -8,7 +8,9 @@ exports[`LoginForm Tests > Matches snapshot 1`] = `
     <h2>
       Log In
     </h2>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="username"
       >
@@ -18,7 +20,9 @@ exports[`LoginForm Tests > Matches snapshot 1`] = `
         name="username"
       />
     </p>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="password"
       >

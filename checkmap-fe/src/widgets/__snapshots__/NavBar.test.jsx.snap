@@ -6,9 +6,34 @@ exports[`NavBar Tests > Matches snapshot 1`] = `
     class="NavBar"
   >
     <a
-      href="/"
+      href="/map"
     >
       CheckMap
+    </a>
+    <a
+      class=""
+      href="/lists"
+    >
+      Your Lists
+    </a>
+    <form
+      class="ListSwitcher"
+    >
+      <select
+        name="list"
+      >
+        <option
+          value="1"
+        >
+          Test List 1a
+        </option>
+      </select>
+    </form>
+    <a
+      class=""
+      href="/newlist"
+    >
+      New List
     </a>
     <a
       class=""
@@ -22,7 +47,7 @@ exports[`NavBar Tests > Matches snapshot 1`] = `
       Log Out
     </a>
     <span>
-      testUser
+      testuser
     </span>
   </nav>
 </DocumentFragment>

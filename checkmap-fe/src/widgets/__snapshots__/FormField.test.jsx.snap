@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FormField Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <p
+    class="FormField"
+  >
+    <label
+      for="test"
+    >
+      Test Label: 
+    </label>
+    <input />
+    <span
+      class="input-error"
+    >
+       test message
+    </span>
+  </p>
+</DocumentFragment>
+`;

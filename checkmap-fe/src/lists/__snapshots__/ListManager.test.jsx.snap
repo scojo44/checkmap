@@ -1,0 +1,60 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ListManager Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="ListManager"
+  >
+    <h2>
+      Your Lists
+    </h2>
+    <ul
+      class="user-lists"
+    >
+      <li>
+        <div
+          class="list-row"
+        >
+          <span
+            class="list-name"
+          >
+            Test List 1a
+          </span>
+          <span
+            class="list-button"
+          >
+            <button>
+              Edit
+            </button>
+          </span>
+          <span
+            class="list-button"
+          >
+            <button
+              disabled=""
+            >
+              Switch
+            </button>
+          </span>
+          <span
+            class="list-button"
+          >
+            <button
+              disabled=""
+            >
+              Delete
+            </button>
+          </span>
+        </div>
+      </li>
+    </ul>
+    <form>
+      <button
+        type="button"
+      >
+        Close
+      </button>
+    </form>
+  </section>
+</DocumentFragment>
+`;

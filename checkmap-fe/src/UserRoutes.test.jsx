@@ -3,16 +3,27 @@ import {MemoryRouter} from 'react-router-dom'
 import UserContext from './UserContext'
 import UserRoutes from './UserRoutes'
 
+const list = {
+  id: 1,
+  name: 'Test List 1a',
+  description: 'This is a test list.',
+  color: '#0000FF',
+  regionType: 'State',
+  ownerName: 'u1',
+  states: [],
+  counties: []
+}
+const user = {
+  username: 'testuser',
+  imageURL: 'u1.jpeg',
+  role: 'User',
+  lists: [list]
+}
 const context = {
-  appliedJobIDs: new Set([1]),
-  applyToJob: vi.fn(),
-  currentUser: {
-    username: 'testuser',
-    firstName: 'First',
-    lastname: 'Last',
-    email: 'first@last.test',
-    jobs: []
-  }
+  user,
+  currentList: list,
+  setCurrentList: x => x,
+  showAlert: x => x
 };
 
 describe('UserRoutes Tests', () => {

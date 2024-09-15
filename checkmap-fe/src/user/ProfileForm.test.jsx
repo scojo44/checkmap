@@ -4,11 +4,11 @@ import UserContext from '../UserContext'
 import ProfileForm from './ProfileForm'
 
 const context = {
-  currentUser: {
+  user: {
     username: 'testuser',
-    firstName: 'First',
-    lastname: 'Last',
-    email: 'first@last.test'
+    imageURL: 'u1.jpeg',
+    role: 'User',
+    lists: []
   }
 };
 

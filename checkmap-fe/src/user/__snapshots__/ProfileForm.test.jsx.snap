@@ -8,7 +8,9 @@ exports[`ProfileForm Tests > Matches snapshot 1`] = `
     <h2>
       Edit Profile
     </h2>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="username"
       >
@@ -19,7 +21,9 @@ exports[`ProfileForm Tests > Matches snapshot 1`] = `
         readonly=""
       />
     </p>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="password"
       >
@@ -31,47 +35,29 @@ exports[`ProfileForm Tests > Matches snapshot 1`] = `
         type="password"
       />
     </p>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
         for="confirm"
       >
         Confirm New Password: 
       </label>
       <input
-        autocomplete="new-password"
         name="confirm"
         type="password"
       />
     </p>
-    <p>
+    <p
+      class="FormField"
+    >
       <label
-        for="firstName"
+        for="imageURL"
       >
-        First Name: 
+        Image URL (optional): 
       </label>
       <input
-        name="firstName"
-      />
-    </p>
-    <p>
-      <label
-        for="lastName"
-      >
-        Last Name: 
-      </label>
-      <input
-        name="lastName"
-      />
-    </p>
-    <p>
-      <label
-        for="email"
-      >
-        Email: 
-      </label>
-      <input
-        name="email"
-        type="email"
+        name="imageURL"
       />
     </p>
     <button
@@ -79,6 +65,15 @@ exports[`ProfileForm Tests > Matches snapshot 1`] = `
     >
       Save
     </button>
+    <button
+      type="button"
+    >
+      Cancel
+    </button>
+    <img
+      alt=""
+      src="u1.jpeg"
+    />
   </form>
 </DocumentFragment>
 `;

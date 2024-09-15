@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ListSwitcher Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <form
+    class="ListSwitcher"
+  >
+    <select
+      name="list"
+    >
+      <option
+        value="1"
+      >
+        Test List 1a
+      </option>
+    </select>
+  </form>
+</DocumentFragment>
+`;

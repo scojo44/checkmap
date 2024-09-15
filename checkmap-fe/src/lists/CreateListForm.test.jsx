@@ -1,18 +1,26 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import UserContext from './UserContext'
-import Home from './Home'
+import UserContext from '../UserContext'
+import CreateListForm from './CreateListForm'
 
+const user = {
+  username: 'testuser',
+  imageURL: 'u1.jpeg',
+  role: 'User',
+  lists: []
+}
 const context = {
-  user: false // Only used to see if user logged in and should navigate to users area
+  user,
+  setCurrentList: x => x,
+  showAlert: x => x
 };
 
-describe('Home Tests', () => {
+describe('CreateListForm Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
-          <Home />
+          <CreateListForm />
         </UserContext.Provider>
       </MemoryRouter>
     );
@@ -22,7 +30,7 @@ describe('Home Tests', () => {
     const {asFragment} = render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
-          <Home />
+          <CreateListForm />
         </UserContext.Provider>
       </MemoryRouter>
     );

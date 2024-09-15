@@ -1,0 +1,81 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CreateListForm Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <form
+    class="CreateListForm"
+  >
+    <h2>
+      Create a New List
+    </h2>
+    <p
+      class="FormField"
+    >
+      <label
+        for="name"
+      >
+        Name: 
+      </label>
+      <input
+        name="name"
+      />
+    </p>
+    <p
+      class="FormField"
+    >
+      <label
+        for="description"
+      >
+        Description (optional): 
+      </label>
+      <input
+        name="description"
+      />
+    </p>
+    <p
+      class="FormField"
+    >
+      <label
+        for="color"
+      >
+        Fill Color: 
+      </label>
+      <input
+        name="color"
+        type="color"
+      />
+    </p>
+    <p>
+      <label
+        for="regionType"
+      >
+        Region Type: 
+      </label>
+      <select
+        name="regionType"
+      >
+        <option
+          value="State"
+        >
+          States
+        </option>
+        <option
+          value="County"
+        >
+          Counties
+        </option>
+      </select>
+    </p>
+    <button
+      type="submit"
+    >
+      Submit
+    </button>
+    <button
+      type="button"
+    >
+      Cancel
+    </button>
+  </form>
+</DocumentFragment>
+`;
