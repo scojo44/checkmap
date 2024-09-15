@@ -29,6 +29,7 @@ enum CountyType {
   District
   Municipality
   Municipio
+  Territory
   UnorganizedAtoll
 }
 

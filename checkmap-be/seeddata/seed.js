@@ -65,15 +65,20 @@ function seedCounties() {
     }
 
     // Fix some oddities from OpenDataSoft's county data
-    if(geoid === 32510) county.type = CountyType.IndependentCity; // Carson City, NV
-    if(geoid === 60030) county.type = CountyType.UnorganizedAtoll; // Rose Island, American Somoa
-    if(geoid === 60040) county.type = CountyType.UnorganizedAtoll; // Swains Island, American Somoa
+    switch(+geoid) {
+      case 66010: type = CountyType.Territory;        break; // Guam
+      case 32510: type = CountyType.IndependentCity;  break; // Carson City, NV
+      case 11001: type = CountyType.IndependentCity;  break; // Washington, DC
+      case 60030: type = CountyType.UnorganizedAtoll; break; // Rose Island, American Somoa
+      case 60040: type = CountyType.UnorganizedAtoll; break; // Swains Island, American Somoa
+    }
 
     await db.county.create({
       data: {
         id: +geoid,
         name,
         fullName: namelsad,
+        type,
         stateID: +statefp,
         boundary: county
       }
