@@ -15,8 +15,7 @@
       "maxLength": 30
     },
     "description": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "color": {
       "type": "string"
