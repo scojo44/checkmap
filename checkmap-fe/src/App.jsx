@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import {jwtDecode} from 'jwt-decode'
 import CheckMapAPI from './api'
 import useLocalStorageState from './hooks/useLocalStorageState'
@@ -8,23 +8,29 @@ import NavBar from './widgets/NavBar'
 import Alert from './widgets/Alert'
 import AppRoutes from './AppRoutes'
 import './App.css'
-import ListForm from './lists/ListForm'
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loadingUser, setLoadingUser] = useState(false);
   const [user, setUser] = useState(null);
+  const [currentList, setCurrentList] = useState();
   const [userToken, setUserToken] = useLocalStorageState('CheckMap-UserToken');
   const [alerts, setAlerts] = useState([]);
-  
+
   useEffect(() => {
     async function getLoggedInUser() {
       const {username} = jwtDecode(userToken);
       CheckMapAPI.userToken = userToken;
-
       try {
         const user = await CheckMapAPI.getUser(username);
         setUser(user);
+
+        // Prompt the use to create their first list
+        if(!user.lists.length)
+          navigate('/newlist', {state: {previousLocation: location}});
+        else // Set the first list as the current
+          setCurrentList(user.lists[0]);
       }
       catch(e) {
         showAlert('error', 'Error loading user info: ' + e);
@@ -38,11 +44,11 @@ function App() {
   }, [userToken]);
 
   return (
-    <UserContext.Provider value={{user, showAlert}}>
-      <NavBar logout={logout} />
-      {alerts && <Alert alerts={alerts} dismiss={dismissAlert} />}
+    <UserContext.Provider value={{user, currentList, setCurrentList, showAlert}}>
+      <NavBar logout={logout}/>
+      <Alert alerts={alerts} dismiss={dismissAlert}/>
       <main>
-        <AppRoutes {...{login, signup, updateUser}} />
+        <AppRoutes {...{login, signup, updateUser}}/>
       </main>
     </UserContext.Provider>
   );
@@ -70,7 +76,13 @@ function App() {
     }
   }
 
-  /** updateUser: Register a new user */
+  async function processUserToken(token) {
+    setAlerts([]);
+    setUserToken(() => token);
+    navigate('/map');
+  }
+
+  /** updateUser: Update user profile */
 
   async function updateUser(user) {
     // Remove passwords if not changing
@@ -86,12 +98,6 @@ function App() {
     catch(e) {
       showAlert('error', 'Update profile failed: ' + e);
     }
-  }
-
-  async function processUserToken(token) {
-    setAlerts([]);
-    setUserToken(token);
-    navigate('/');
   }
 
   /** logout: Log out the user */

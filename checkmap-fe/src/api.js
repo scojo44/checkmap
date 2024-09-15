@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://10.1.1.73:3000";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 /** API Class.
  *
@@ -11,10 +11,6 @@ export default class CheckMapAPI {
   static userToken;
 
   static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
-
-    //there are multiple ways to pass an authorization token, this is how you pass it in the header.
-    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {Authorization: `Bearer ${this.userToken}`};
     const params = (method === "get")? data : {};
@@ -101,7 +97,7 @@ export default class CheckMapAPI {
 
   static async deleteList(listID) {
     const res = await this.request(`lists/${listID}`, {}, 'delete');
-    return res;
+    return res.deleted;
   }
 
   /** Add a region to a list */

@@ -1,41 +1,38 @@
 import React, {useState, useContext, useEffect} from 'react'
-import {MapContainer, TileLayer, Polygon, GeoJSON} from 'react-leaflet'
-import useCheckMapAPI from './hooks/useCheckMapAPI'
-import ListForm from './lists/ListForm'
+import {MapContainer, TileLayer, GeoJSON} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import UserContext from './UserContext'
 import CheckMapAPI from './api'
 
 export default function Map(props) {
   const [isLoadingRegions, setIsLoadingRegions] = useState(false);
-  const {user, showAlert} = useContext(UserContext);
+  const {currentList, setCurrentList, showAlert} = useContext(UserContext);
+  // const {data, setApiCall, error, isLoading} = useCheckMapAPI();
   const [allRegions, setAllRegions] = useState();
-  const [list, setList] = useState(user.lists[0]);
-  const {data, setApiCall, error, isLoading} = useCheckMapAPI();
-  const [geoJSONs, setGeoJSONs] = useState([]);
+  let listRegions;
+
+  if(allRegions) listRegions = currentList[allRegions.regionProp];
 
   useEffect(() => {
     async function getAllRegions() {
       try {
         setIsLoadingRegions(true);
-        const regions = await CheckMapAPI.getRegions(list.regionType);
+        const regions = await CheckMapAPI.getRegions(currentList.regionType);
         setAllRegions(regions);
       }
       catch(e) {
-        showAlert('error', `Error loading all ${list.regionType} regions`);
+        showAlert('error', `Error loading all ${currentList.regionType} regions`);
         setAllRegions(null);
       }
       setIsLoadingRegions(false);
     }
 
-    list? getAllRegions() : setAllRegions(null);
-  }, [list]);
-  // if(list) setApiCall('getRegions', list.regionType);
+    currentList? getAllRegions() : setAllRegions(null);
+  }, [currentList]);
 
   return (
     <>
-    <ListForm setList={setList} />
-    <MapContainer center={[48.75, -116.25]} zoom={11}>
+    <MapContainer center={[40, -96]} zoom={5}>
       <TileLayer
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -62,12 +59,11 @@ export default function Map(props) {
       />
       {allRegions && allRegions.regions.map(region => {
         let regionColor = 'mediumpurple';
-        if(list[allRegions.regionProp].find(lr => lr.id === region.id)) regionColor = 'cornflowerblue';
+        if(listRegions.find(lr => lr.id === region.id)) regionColor = 'cornflowerblue';
         return <GeoJSON key={region.id} data={region.boundary} style={{color: regionColor}}
           eventHandlers={{click: handleClick}}
         />
       })}
-      {/* <GeoJSON data={counties5m} key={'5m'} style={{color: 'indigo'}} /> */}
     </MapContainer>
     </>
   )
@@ -77,23 +73,23 @@ export default function Map(props) {
     let operation;
 
     try {
-      if(!list[allRegions.regionProp].find(r => r.id === regionID)) {
+      if(!listRegions.find(r => r.id === regionID)) {
         operation = 'adding';
-        const region = await CheckMapAPI.addRegion(list.id, regionID);
-        list[allRegions.regionProp].push(region);
-        setList(list => ({...list}))
+        const addedRegion = await CheckMapAPI.addRegion(currentList.id, regionID);
+        listRegions.push(addedRegion);
+        setCurrentList(list => ({...list}))
       }
       else {
         operation = 'removing';
-        const region = await CheckMapAPI.removeRegion(list.id, regionID);
-        const removeIndex = list[allRegions.regionProp].findIndex(r => r.id === regionID);
-        list[allRegions.regionProp].splice(removeIndex, 1);
-        setList(list => ({...list}));
+        const removedRegion = await CheckMapAPI.removeRegion(currentList.id, regionID);
+        const removeIndex = listRegions.findIndex(r => r.id === removedRegion.id);
+        listRegions.splice(removeIndex, 1);
+        setCurrentList(list => ({...list}));
       }
     }
     catch(e) {
       const {name} = sourceTarget.feature.properties;
-      showAlert('error', `Error ${operation} ${name} (#${regionID}) from list #${list.id}:`);
+      showAlert('error', `Error ${operation} ${name} (#${regionID}) from list #${currentList.id}:`);
     }
 }
 }
