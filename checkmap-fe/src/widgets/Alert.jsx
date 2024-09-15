@@ -2,6 +2,8 @@ import React from 'react'
 import './Alert.css'
 
 export default function Alert({alerts = [], dismiss}) {
+  if(!alerts.length) return;
+
   return (
     <aside className="Alert">
       {alerts.map((alert, i) =>
