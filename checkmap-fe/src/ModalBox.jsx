@@ -17,7 +17,7 @@ export default function ModalBox({element}) {
       zIndex: '9999'
     },
     content: {
-      top: '10%',
+      top: '5%',
       bottom: 'auto',
       width: '50%',
       margin: 'auto',

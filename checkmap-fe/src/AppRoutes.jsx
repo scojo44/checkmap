@@ -6,6 +6,7 @@ import Map from './Map'
 import LoginForm from './user/LoginForm'
 import SignupForm from './user/SignupForm'
 import ProfileForm from './user/ProfileForm'
+import ListManager from './lists/ListManager'
 import CreateListForm from './lists/CreateListForm'
 import ModalBox from './ModalBox'
 
@@ -32,6 +33,7 @@ export default function AppRoutes({login, signup, updateUser}) {
           <Route path="/signup" element={<SignupForm signup={signup}/>}/>
           <Route element={<UserRoutes/>}>
             <Route path="/profile" element={<ProfileForm update={updateUser}/>}/>
+            <Route path="/lists" element={<ListManager/>}/>
             <Route path="/newlist" element={<CreateListForm/>}/>
           </Route>
         </Route>

@@ -1,0 +1,14 @@
+.ListManager ul {
+  list-style-type: none;
+}
+.ListManager .list-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: .5rem;
+}
+.ListManager .list-name {
+  flex: 2;
+}
+.ListManager .list-button {
+  flex: 1;
+}

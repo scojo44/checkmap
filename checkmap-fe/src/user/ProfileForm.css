@@ -1,18 +1,10 @@
-.ProfileForm ul {
-  list-style-type: none;
-}
-.ProfileForm .list-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: .5rem;
-}
-.ProfileForm .list-name {
-  flex: 2;
-}
-.ProfileForm .list-button {
-  flex: 1;
-}
 .ProfileForm input[name="imageURL"] {
   display: block;
   width: 95%;
+}
+.ProfileForm img {
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  max-width: 100%;
 }
