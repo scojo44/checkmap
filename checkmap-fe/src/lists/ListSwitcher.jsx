@@ -1,17 +1,19 @@
 import React, {useContext} from 'react'
 import UserContext from '../UserContext'
-import './ListForm.css'
+import './ListSwitcher.css'
 
-export default function ListForm(props) {
+export default function ListSwitcher(props) {
   const {user, currentList, setCurrentList} = useContext(UserContext);
 
   if(!user.lists.length) return;
 
   return (
-    <form className="ListForm">
+    <form className="ListSwitcher">
       {user.lists &&
         <select name="list" onChange={handleChange} value={currentList.id}>
-          {user.lists.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
+          {user.lists.sort((a,b) => a.id > b.id).map(l =>
+            <option key={l.id} value={l.id}>{l.name}</option>
+          )}
         </select>
       }
     </form>

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {Link, NavLink, useLocation} from 'react-router-dom'
 import UserContext from '../UserContext'
-import ListForm from '../lists/ListForm'
+import ListSwitcher from '../lists/ListSwitcher'
 import './NavBar.css'
 
 export default function NavBar({logout}) {
@@ -14,8 +14,8 @@ export default function NavBar({logout}) {
       <Link to={homeURL}>CheckMap</Link>
       {user
         ? <>
-            {user.lists.length > 0 && <NavLink to="/map">Your Lists:</NavLink>}
-            <ListForm />
+            {user.lists.length > 0 && <NavLink to="/lists" state={{previousLocation: location}}>Your Lists</NavLink>}
+            <ListSwitcher />
             <NavLink to="/newlist" state={{previousLocation: location}}>New List</NavLink>
             <NavLink to="/profile" state={{previousLocation: location}}>Profile</NavLink>
             <Link to="/" onClick={logout}>Log Out</Link>
