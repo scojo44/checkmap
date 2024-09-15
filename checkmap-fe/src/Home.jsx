@@ -40,12 +40,26 @@ export default function Home() {
   }
 
   return (
-    <MapContainer center={[37, -96]} zoom={5}>
-      <TileLayer
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {counties && counties.regions.map(region => <GeoJSON key={region.id} data={region.boundary} style={mapStyles}/>)}
-    </MapContainer>
+    <section className="Home">
+      <MapContainer center={[37, -96]} zoom={5}>
+        <TileLayer
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+        {counties && counties.regions.map(region => <GeoJSON key={region.id} data={region.boundary} style={mapStyles}/>)}
+      </MapContainer>
+      <div className="dimmer">
+        {location.pathname === '/' &&
+          <div className="landing">
+            <h1>CheckMap</h1>
+            <h2>Welcome!</h2>
+            <p>CheckMap is a simple site to track states and counties you've visited.</p>
+            <p>Sign up, create a list, then just click on the regions you have visited!</p>
+            <p>You can create more lists to track where you have done something special like
+              caught a fish, played golf, rode your motorcycle, found a geocache...</p>
+          </div>
+        }
+      </div>
+    </section>
   );
 }
