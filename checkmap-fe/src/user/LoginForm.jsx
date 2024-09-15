@@ -1,5 +1,7 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
+import FormField from '../widgets/FormField';
+import PasswordField from '../widgets/PasswordField';
 // import './LoginForm.css'
 
 export default function LoginForm({login}) {
@@ -8,16 +10,8 @@ export default function LoginForm({login}) {
   return (
     <form className="LoginForm" onSubmit={handleSubmit(async credentials => await login(credentials))}>
       <h2>Log In</h2>
-      <p>
-        <label htmlFor="username">Username: </label>
-        <input {...register("username", {required: 'Please enter your username'})} />
-        {errors.username && <span className="input-error"> {errors.username.message}</span>}
-      </p>
-      <p>
-        <label htmlFor="password">Password: </label>
-        <input type="password" {...register("password", {required: 'Please enter your password'})} />
-        {errors.password && <span className="input-error"> {errors.password.message}</span>}
-      </p>
+      <FormField name="username" label="Username" {...{register, errors}} validation={{required: 'Please enter your username'}}/>
+      <PasswordField name="password" label="Password" {...{register, errors}} validation={{required: 'Please enter your password'}}/>
       <button type="submit">Log In</button>
     </form>
   );
