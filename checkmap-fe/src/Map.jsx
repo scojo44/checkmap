@@ -80,17 +80,19 @@ export default function Map(props) {
 
   async function handleClick({sourceTarget}) {
     const regionID = +sourceTarget.feature.properties.geoid;
-    let operation;
+    const operation = {};
 
     try {
       if(!listRegions.find(r => r.id === regionID)) {
-        operation = 'adding';
+        operation.op = 'adding';
+        operation.fromTo = 'to';
         const addedRegion = await CheckMapAPI.addRegion(currentList.id, regionID);
         listRegions.push(addedRegion);
         setCurrentList(list => ({...list}))
       }
       else {
-        operation = 'removing';
+        operation.op = 'removing';
+        operation.fromTo = 'from';
         const removedRegion = await CheckMapAPI.removeRegion(currentList.id, regionID);
         const removeIndex = listRegions.findIndex(r => r.id === removedRegion.id);
         listRegions.splice(removeIndex, 1);
@@ -99,7 +101,7 @@ export default function Map(props) {
     }
     catch(e) {
       const {name} = sourceTarget.feature.properties;
-      showAlert('error', `Error ${operation} ${name} (#${regionID}) from list #${currentList.id}:`);
+      showAlert('error', `Error ${operation.op} ${name} (#${regionID}) ${operation.fromTo} list #${currentList.id}:`);
     }
 }
 }
