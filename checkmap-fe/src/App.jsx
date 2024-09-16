@@ -104,6 +104,7 @@ function App() {
 
   async function logout() {
     setUserToken(null);
+    setCurrentList(null);
   }
 
   /** showAlert: Show a message at the top */
