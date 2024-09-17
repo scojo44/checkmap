@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 
-const useLocalStorageState = (key, initialState) => {
+export default function useLocalStorageState(key, initialState) {
   const savedState = localStorage.getItem(key);
 
   try {
@@ -15,7 +15,12 @@ const useLocalStorageState = (key, initialState) => {
     localStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
-  return [state, setState];
-}
+  return [state, setLocalStorageState];
 
-export default useLocalStorageState;
+  // Set the new state or delete it from locatStorage if null or undefined.
+  function setLocalStorageState(newState) {
+    if(newState === null || newState === undefined)
+      localStorage.removeItem(key);
+    setState(() => newState);
+  }
+}
