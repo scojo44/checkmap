@@ -18,7 +18,7 @@ export default function NavBar({logout}) {
             <ListSwitcher />
             <NavLink to="/newlist" state={{previousLocation: location}}>New List</NavLink>
             <NavLink to="/profile" state={{previousLocation: location}}>Profile</NavLink>
-            <Link to="/" onClick={logout}>Log Out</Link>
+            <Link to="/map" onClick={logout}>Log Out</Link>
             <span>{user.username}</span>
           </>
         : <>

@@ -21,10 +21,7 @@ export default function AppRoutes({login, signup, updateUser}) {
   return (
     <>
     <Routes location={previousLocation || location}>
-      <Route path="/" element={<Home/>}/>
-      <Route element={<UserRoutes/>}>
-        <Route path="/map" element={<Map/>}/>
-      </Route>
+      <Route path="/map" element={<Map/>}/>
     </Routes>
     {previousLocation &&
       <Routes>

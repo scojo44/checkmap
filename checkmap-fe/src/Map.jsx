@@ -6,39 +6,49 @@ import CheckMapAPI from './api'
 
 export default function Map(props) {
   const [isLoadingRegions, setIsLoadingRegions] = useState(false);
-  const {currentList, setCurrentList, showAlert} = useContext(UserContext);
+  const {user, currentList, setCurrentList, showAlert} = useContext(UserContext);
   // const {data, setApiCall, error, isLoading} = useCheckMapAPI();
   const [allRegions, setAllRegions] = useState();
+  const [allStates, setAllStates] = useState();
   let listRegions;
 
-  if(allRegions) listRegions = currentList[allRegions.regionProp];
+  if(allRegions && currentList) listRegions = currentList[allRegions.regionProp];
 
   useEffect(() => {
     async function getAllRegions() {
+      const regionType = currentList?.regionType || "County";
       try {
         setIsLoadingRegions(true);
-        const regions = await CheckMapAPI.getRegions(currentList.regionType);
-        setAllRegions(regions);
+        setAllRegions(await CheckMapAPI.getRegions(regionType));
+        // Get the state polygons for thicker state borders
+        if(!allStates) setAllStates(await CheckMapAPI.getRegions('State'));
       }
       catch(e) {
-        showAlert('error', `Error loading all ${currentList.regionType} regions`);
-        setAllRegions(null);
+        showAlert('error', `Error loading all ${regionType} regions`);
       }
       setIsLoadingRegions(false);
     }
 
-    currentList? getAllRegions() : setAllRegions(null);
+    getAllRegions();
   }, [currentList]);
 
-  const mapStyles = {
+  const stateStyles = {
     color: 'black',
+    fill: false,
+    weight: 3,
+    opacity: .3
+  }
+  const regionStyles = {
+    color: 'black',
+    fill: !!user, // False makes the regions not clickable for guests
     fillOpacity: 0,
     weight: 2,
     opacity: .3
   }
   const listStyles = {
+    ...regionStyles,
     fillOpacity: .5,
-    fillColor: currentList.color
+    fillColor: currentList?.color || 'black' // In case user doesn't have a list yet
   }
 
   return (
@@ -68,15 +78,17 @@ export default function Map(props) {
           }
         }}
       />
+      {allStates && allRegions.regionProp !== 'states' && allStates.regions.map(state => <GeoJSON key={state.id} data={state.boundary} style={stateStyles} />)}
       {allRegions && allRegions.regions.map(region => {
-        const regionStyles = listRegions.find(lr => lr.id === region.id)? listStyles: {}; // Set marked region fill color
-        return <GeoJSON key={region.id} data={region.boundary} style={{...mapStyles, ...regionStyles}}
-          eventHandlers={{click: handleClick}}
-        />
+        // Give the list's regions a different style
+        const regionInList = currentList && listRegions.find(lr => lr.id === region.id);
+        return <GeoJSON key={region.id} data={region.boundary} style={regionInList? listStyles : regionStyles} eventHandlers={{click: handleClick}} />
       })}
     </MapContainer>
     </>
   )
+
+  /** handleClick:  Toggles the region color. */
 
   async function handleClick({sourceTarget}) {
     const regionID = +sourceTarget.feature.properties.geoid;

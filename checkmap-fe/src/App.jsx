@@ -22,11 +22,14 @@ function App() {
     async function getLoggedInUser() {
       const {username} = jwtDecode(userToken);
       CheckMapAPI.userToken = userToken;
+      setLoadingUser(true);
+
       try {
         const user = await CheckMapAPI.getUser(username);
         setUser(user);
+        setLoadingUser(false);
 
-        // Prompt the use to create their first list
+        // Prompt the user to create their first list
         if(!user.lists.length)
           navigate('/newlist', {state: {previousLocation: location}});
         else // Set the first list as the current
@@ -34,13 +37,12 @@ function App() {
       }
       catch(e) {
         showAlert('error', 'Error loading user info: ' + e);
-        setUser(null);
+        logout();
+        setLoadingUser(false);
       }
-      setLoadingUser(false);
     }
 
-    setLoadingUser(true);
-    userToken? getLoggedInUser() : setUser(null);
+    userToken? getLoggedInUser() : logout();
   }, [userToken]);
 
   return (
@@ -78,7 +80,7 @@ function App() {
 
   async function processUserToken(token) {
     setAlerts([]);
-    setUserToken(() => token);
+    setUserToken(token);
     navigate('/map');
   }
 
@@ -103,8 +105,11 @@ function App() {
   /** logout: Log out the user */
 
   async function logout() {
-    setUserToken(null);
     setCurrentList(null);
+    setUser(null);
+    setUserToken(null);
+    CheckMapAPI.userToken = undefined;
+    // navigate('/');
   }
 
   /** showAlert: Show a message at the top */
