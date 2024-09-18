@@ -28,12 +28,12 @@ export default function ProfileForm({update}) {
     </form>
   );
 
-  async function saveProfile(credentials) {
-    await update(credentials);
+  async function saveProfile(updatedUser) {
+    await update(updatedUser);
     hideForm();
   }
 
   function hideForm() {
-    navigate('/map');
+    navigate('/');
   }
 }

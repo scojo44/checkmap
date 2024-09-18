@@ -43,6 +43,6 @@ export default function CreateListForm(props) {
   }
 
   function hideForm() {
-    navigate('/map');
+    navigate('/');
   }
 }

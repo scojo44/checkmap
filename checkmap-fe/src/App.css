@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: column;
 }
-#root > main {
+#App-main {
   flex: auto;
   display: flex;
 }
 .leaflet-container {
+  position: relative;
   height: 100%;
   width: 100vw;
 }

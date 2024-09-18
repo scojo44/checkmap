@@ -1,8 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {MapContainer, TileLayer, GeoJSON} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import UserContext from './UserContext'
 import CheckMapAPI from './api'
+import UserContext from './UserContext'
+import ModalBox from './ModalBox'
+import Landing from './Landing'
+import { Outlet } from 'react-router-dom'
 
 export default function Map(props) {
   const [isLoadingRegions, setIsLoadingRegions] = useState(false);
@@ -10,6 +13,7 @@ export default function Map(props) {
   // const {data, setApiCall, error, isLoading} = useCheckMapAPI();
   const [allRegions, setAllRegions] = useState();
   const [allStates, setAllStates] = useState();
+  const allowModal = !user || (location.pathname !== '/' && user); // Hide the welcome message if user logged in on "/" (the home map)
   let listRegions;
 
   if(allRegions && currentList) listRegions = currentList[allRegions.regionProp];
@@ -54,6 +58,7 @@ export default function Map(props) {
   return (
     <>
     <MapContainer center={[40, -96]} zoom={5}>
+      {allowModal && <Outlet/>}
       <TileLayer
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

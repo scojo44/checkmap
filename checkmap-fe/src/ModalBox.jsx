@@ -1,19 +1,16 @@
 import React from "react"
-import {Outlet, useLocation} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import Modal from 'react-modal'
 
 /** Wrapper to show forms as a modal dialog box */
 
-export default function ModalBox({element}) {
-  const location = useLocation();
-  const previousLocation = location.state?.previousLocation; // Used to tell ModalBox when to be open
-  
+export default function ModalBox(props) {
   // Bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
   Modal.setAppElement('#root');
 
   const customStyles = {
     overlay: {
-      backgroundColor: 'rgba(0,0,0,50%)',
+      backgroundColor: 'rgba(0,0,0,80%)',
       zIndex: '9999'
     },
     content: {
@@ -28,22 +25,11 @@ export default function ModalBox({element}) {
 
   return (
     <Modal
-      isOpen={!!previousLocation}
-      onAfterOpen={afterOpenModal}
-      onRequestClose={closeModal}
+      isOpen={true}
       style={customStyles}
-      contentLabel="Example Modal"
+      contentLabel="Modal"
     >
       <Outlet/>
     </Modal>
   );
-
-  function closeModal() {
-    // Save in case it's needed
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // subtitle.style.color = '#f00';
-  }
 }

@@ -36,7 +36,7 @@ export default function ListManager(props) {
   function switchList(list) { setCurrentList(list); }
   function showEditUI(list) { setEditingListID(list.id); }
   function hideEditUI() { setEditingListID(0); }
-  function hideForm() { navigate('/map'); }
+  function hideForm() { navigate('/'); }
 
   async function updateList(updatedList) {
     try {

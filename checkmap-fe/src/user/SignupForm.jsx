@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom';
 import {useForm} from 'react-hook-form'
 import FormField from '../widgets/FormField';
 import NewPasswordFields from '../widgets/NewPasswordFields';
@@ -13,7 +14,7 @@ export default function SignupForm({signup}) {
       <FormField name="username" label="Username" {...{register, errors}} validation={{required: 'Please choose a username'}}/>
       <NewPasswordFields {...{register, errors}}/>
       <FormField name="imageURL" label="Image URL (optional)" {...{register, errors}}/>
-      <button type="submit">Sign Up</button>
+      <button type="submit">Sign Up</button> or <Link to="/login">Log in</Link>
     </form>
   );
 }

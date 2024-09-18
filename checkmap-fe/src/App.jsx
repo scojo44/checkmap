@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {useLocation, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {jwtDecode} from 'jwt-decode'
 import CheckMapAPI from './api'
 import useLocalStorageState from './hooks/useLocalStorageState'
@@ -11,7 +11,6 @@ import './App.css'
 
 function App() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [loadingUser, setLoadingUser] = useState(false);
   const [user, setUser] = useState(null);
   const [currentList, setCurrentList] = useState();
@@ -31,7 +30,7 @@ function App() {
 
         // Prompt the user to create their first list
         if(!user.lists.length)
-          navigate('/newlist', {state: {previousLocation: location}});
+          navigate('/newlist');
         else // Set the first list as the current
           setCurrentList(user.lists[0]);
       }
@@ -49,7 +48,7 @@ function App() {
     <UserContext.Provider value={{user, currentList, setCurrentList, showAlert}}>
       <NavBar logout={logout}/>
       <Alert alerts={alerts} dismiss={dismissAlert}/>
-      <main>
+      <main id="App-main">
         <AppRoutes {...{login, signup, updateUser}}/>
       </main>
     </UserContext.Provider>
@@ -81,21 +80,21 @@ function App() {
   async function processUserToken(token) {
     setAlerts([]);
     setUserToken(token);
-    navigate('/map');
+    navigate('/');
   }
 
   /** updateUser: Update user profile */
 
-  async function updateUser(user) {
+  async function updateUser(changes) {
     // Remove passwords if not changing
-    if(!user.password) delete user.password;
-    delete user.confirm;
+    if(!changes.password) delete changes.password;
+    delete changes.confirm;
 
     try {
-      const updated = await CheckMapAPI.updateUser(user);
+      const updatedUser = await CheckMapAPI.updateUser(changes);
       setAlerts([]);
       showAlert('success', 'Your profile was updated')
-      setUser(updated);
+      setUser(user => ({...user, updated: updatedUser}));
     }
     catch(e) {
       showAlert('error', 'Update profile failed: ' + e);

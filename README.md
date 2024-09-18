@@ -32,7 +32,7 @@ The frontend is built with React using
 
 The data is stored in a PostgreSQL database with state/county boundaries in GeoJSON.
 
-One thing I'd like to highlight is I learned how to leave the map in the background while showing a modal form, yet still have the URL to the form in the browser's address bar.  For example, going to the home page shows a map with all the county boundaries highlighted.  Clicking to sign up shows the signup form in a modal window while the map remains visible around it, though dimmed.  This is possible by essentially having two sets of `<Routes>` as explained at [Building a React modal module with React Router](https://blog.logrocket.com/building-react-modal-module-with-react-router/).  I extended this by adding React-Modal to the mix and used it to create a layout route with `<Outlet/>`.
+One thing I'd like to highlight is I learned how to leave the map in the background while showing a modal form, yet still have the browser's address bar updated with the URL to the form component.  For example, going to the home page shows a map with all the county boundaries highlighted.  Clicking to sign up shows the signup form in a modal window while the map remains visible around it, though dimmed.  This is possible with a layout `<Route>` from React Router 6.  I extended this by adding React-Modal to the mix, using it in a layout component with `<Outlet/>`.
 
 ## Data Source
 
