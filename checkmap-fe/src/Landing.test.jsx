@@ -1,18 +1,18 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
 import UserContext from './UserContext'
-import Home from './Home'
+import Landing from './Landing'
 
 const context = {
   user: false // Only used to see if user logged in and should navigate to users area
 };
 
-describe('Home Tests', () => {
+describe('Landing Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
-          <Home />
+          <Landing />
         </UserContext.Provider>
       </MemoryRouter>
     );
@@ -22,7 +22,7 @@ describe('Home Tests', () => {
     const {asFragment} = render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
-          <Home />
+          <Landing />
         </UserContext.Provider>
       </MemoryRouter>
     );
