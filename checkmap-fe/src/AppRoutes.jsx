@@ -18,15 +18,13 @@ export default function AppRoutes({login, signup, updateUser}) {
   return (
     <Routes>
       <Route element={<Map/>}>
-        <Route element={<ModalBox/>}>
-          <Route path="/" element={<Landing/>}/>
-          <Route path="/login" element={<LoginForm login={login}/>}/>
-          <Route path="/signup" element={<SignupForm signup={signup}/>}/>
-          <Route element={<UserRoutes/>}>
-            <Route path="/lists" element={<ListManager/>}/>
-            <Route path="/newlist" element={<CreateListForm/>}/>
-            <Route path="/profile" element={<ProfileForm update={updateUser}/>}/>
-          </Route>
+        <Route path="/" element={<Landing/>}/>
+        <Route path="/login" element={<LoginForm login={login}/>}/>
+        <Route path="/signup" element={<SignupForm signup={signup}/>}/>
+        <Route element={<UserRoutes/>}>
+          <Route path="/lists" element={<ListManager/>}/>
+          <Route path="/newlist" element={<CreateListForm/>}/>
+          <Route path="/profile" element={<ProfileForm update={updateUser}/>}/>
         </Route>
       </Route>
     </Routes>

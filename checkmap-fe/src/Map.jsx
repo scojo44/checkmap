@@ -4,8 +4,6 @@ import 'leaflet/dist/leaflet.css'
 import CheckMapAPI from './api'
 import UserContext from './UserContext'
 import ModalBox from './ModalBox'
-import Landing from './Landing'
-import { Outlet } from 'react-router-dom'
 
 export default function Map(props) {
   const [isLoadingRegions, setIsLoadingRegions] = useState(false);
@@ -58,7 +56,7 @@ export default function Map(props) {
   return (
     <>
     <MapContainer center={[40, -96]} zoom={5}>
-      {allowModal && <Outlet/>}
+      {allowModal && <ModalBox/>}
       <TileLayer
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
