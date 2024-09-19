@@ -1,7 +1,6 @@
 import React from 'react'
 import {Routes, Route} from 'react-router-dom'
 import Map from './Map'
-import ModalBox from './ModalBox'
 import UserRoutes from './UserRoutes'
 import Landing from './Landing'
 import LoginForm from './user/LoginForm'

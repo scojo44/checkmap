@@ -3,7 +3,7 @@ import {MapContainer, TileLayer, GeoJSON} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import CheckMapAPI from './api'
 import UserContext from './UserContext'
-import ModalBox from './ModalBox'
+import ModalOutlet from './ModalOutlet'
 
 export default function Map(props) {
   const [isLoadingRegions, setIsLoadingRegions] = useState(false);
@@ -56,7 +56,7 @@ export default function Map(props) {
   return (
     <>
     <MapContainer center={[40, -96]} zoom={5}>
-      {allowModal && <ModalBox/>}
+      {allowModal && <ModalOutlet/>}
       <TileLayer
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

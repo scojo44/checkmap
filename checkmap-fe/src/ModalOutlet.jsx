@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 
 /** Wrapper to show forms as a modal dialog box */
 
-export default function ModalBox(props) {
+export default function ModalOutlet(props) {
   // Bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
   Modal.setAppElement('#root');
 

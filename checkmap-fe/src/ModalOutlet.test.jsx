@@ -1,18 +1,18 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import ModalBox from './ModalBox'
+import ModalOutlet from './ModalOutlet'
 import Modal from 'react-modal';
 
 
-describe('ModalBox Tests', () => {
+describe('ModalOutlet Tests', () => {
   // React-Modal expects a top-level element with ID of 'root' for accessibility
-  // Adding a <div id="root"> around the <ModalBox> doesn't work.
+  // Adding a <div id="root"> around the <ModalOutlet> doesn't work.
   Modal.setAppElement = vi.fn();
 
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <ModalBox element={<h1>Test</h1>}/>
+        <ModalOutlet element={<h1>Test</h1>}/>
       </MemoryRouter>
     );
   });
@@ -20,7 +20,7 @@ describe('ModalBox Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-          <ModalBox element={<h1>Test</h1>}/>
+          <ModalOutlet element={<h1>Test</h1>}/>
       </MemoryRouter>
     );
 
