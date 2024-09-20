@@ -38,6 +38,12 @@ exports[`LoginForm Tests > Matches snapshot 1`] = `
     >
       Log In
     </button>
+     or 
+    <a
+      href="/signup"
+    >
+      Sign up
+    </a>
   </form>
 </DocumentFragment>
 `;

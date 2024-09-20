@@ -73,7 +73,7 @@ On a dev machine, start the backend with `npm start` (`nodemon server.js`) and t
 
 ## Testing
 
-Run `npm test` to run all tests on either end.  For the backend, you can use `jest` to run with specifc test scripts.  For the frontend, use `vitest` for that.  It works like Jest.
+Run `npm test` to run all tests on either end.  For the backend, you can use `jest` to run with specifc test scripts.  On the frontend, run `npx vitest` to do the same.  Vitest works like Jest.
 
 ## Features
 

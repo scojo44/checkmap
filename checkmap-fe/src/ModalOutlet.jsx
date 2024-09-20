@@ -28,6 +28,7 @@ export default function ModalOutlet(props) {
       isOpen={true}
       style={customStyles}
       contentLabel="Modal"
+      ariaHideApp={import.meta.env.NODE_ENV !== 'test'} // Suppress appElement warnings during tests
     >
       <Outlet/>
     </Modal>

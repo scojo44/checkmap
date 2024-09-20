@@ -41,7 +41,7 @@ exports[`ProfileForm Tests > Matches snapshot 1`] = `
       <label
         for="confirm"
       >
-        Confirm New Password: 
+        Confirm Password: 
       </label>
       <input
         name="confirm"

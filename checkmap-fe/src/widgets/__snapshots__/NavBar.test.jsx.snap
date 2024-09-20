@@ -6,7 +6,8 @@ exports[`NavBar Tests > Matches snapshot 1`] = `
     class="NavBar"
   >
     <a
-      href="/map"
+      class="logo"
+      href="/"
     >
       CheckMap
     </a>

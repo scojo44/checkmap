@@ -6,24 +6,15 @@ exports[`App Tests > Matches snapshot 1`] = `
     class="NavBar"
   >
     <a
+      class="logo"
       href="/"
     >
       CheckMap
     </a>
-    <a
-      class=""
-      href="/signup"
-    >
-      Sign Up
-    </a>
-    <a
-      class=""
-      href="/login"
-    >
-      Log In
-    </a>
   </nav>
-  <main>
+  <main
+    id="App-main"
+  >
     <div
       class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
       style="position: relative;"
@@ -48,7 +39,7 @@ exports[`App Tests > Matches snapshot 1`] = `
                 alt=""
                 class="leaflet-tile"
                 src="https://b.tile.openstreetmap.org/5/7/12.png"
-                style="width: 256px; height: 256px; left: -119px; top: -117px;"
+                style="width: 256px; height: 256px; left: -119px; top: -29px;"
               />
             </div>
           </div>

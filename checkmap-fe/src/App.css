@@ -11,3 +11,6 @@
   height: 100%;
   width: 100vw;
 }
+svg:has([d="M0 0h12v4H0z"]) {
+  display: none !important;
+}

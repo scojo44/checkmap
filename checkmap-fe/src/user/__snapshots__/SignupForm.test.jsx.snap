@@ -26,7 +26,7 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
       <label
         for="password"
       >
-        New Password (leave blank to not change): 
+        Password: 
       </label>
       <input
         name="password"
@@ -39,7 +39,7 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
       <label
         for="confirm"
       >
-        Confirm New Password: 
+        Confirm Password: 
       </label>
       <input
         name="confirm"
@@ -63,6 +63,12 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
     >
       Sign Up
     </button>
+     or 
+    <a
+      href="/login"
+    >
+      Log in
+    </a>
   </form>
 </DocumentFragment>
 `;

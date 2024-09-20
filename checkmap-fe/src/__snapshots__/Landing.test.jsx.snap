@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Landing Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="Landing"
+  >
+    <h1>
+      CheckMap
+    </h1>
+    <h2>
+      Welcome!
+    </h2>
+    <p>
+      CheckMap is a simple site to track states and counties you've visited.
+    </p>
+    <p>
+      Sign up, create a list, then just click on the regions you have visited!
+    </p>
+    <p>
+      You can create more lists to track where you have done something special like caught a fish, played golf, rode your motorcycle, found a geocache...
+    </p>
+    <form>
+      <button>
+        <a
+          href="/signup"
+        >
+          Sign Up
+        </a>
+      </button>
+      <button>
+        <a
+          href="/login"
+        >
+          Log In
+        </a>
+      </button>
+    </form>
+  </section>
+</DocumentFragment>
+`;

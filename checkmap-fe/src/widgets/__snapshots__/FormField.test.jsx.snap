@@ -10,7 +10,9 @@ exports[`FormField Tests > Matches snapshot 1`] = `
     >
       Test Label: 
     </label>
-    <input />
+    <input
+      name="test"
+    />
     <span
       class="input-error"
     >

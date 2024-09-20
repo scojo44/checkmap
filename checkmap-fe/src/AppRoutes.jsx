@@ -9,10 +9,6 @@ import ProfileForm from './user/ProfileForm'
 import ListManager from './lists/ListManager'
 import CreateListForm from './lists/CreateListForm'
 
-// Building a React modal module with React Router
-// https://blog.logrocket.com/building-react-modal-module-with-react-router/
-// I updated to use react-modal as a layout <Route>
-
 export default function AppRoutes({login, signup, updateUser}) {
   return (
     <Routes>
