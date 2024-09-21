@@ -11,6 +11,7 @@ exports[`FormField Tests > Matches snapshot 1`] = `
       Test Label: 
     </label>
     <input
+      id="test"
       name="test"
     />
     <span

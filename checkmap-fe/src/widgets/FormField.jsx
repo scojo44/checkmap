@@ -10,7 +10,7 @@ export default function FormField({name, label, inputType = "text", inputAttribu
   return (
     <p className="FormField">
       <label htmlFor={name}>{label}: </label>
-      <input {...inputAttributes} {...register(name, validation)} />
+      <input id={name} {...inputAttributes} {...register(name, validation)} />
       {errors[name] && <span className="input-error"> {errors[name].message}</span>}
     </p>
   );

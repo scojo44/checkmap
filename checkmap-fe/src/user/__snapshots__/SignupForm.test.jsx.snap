@@ -17,6 +17,7 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
         Username: 
       </label>
       <input
+        id="username"
         name="username"
       />
     </p>
@@ -29,6 +30,7 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
         Password: 
       </label>
       <input
+        id="password"
         name="password"
         type="password"
       />
@@ -42,6 +44,7 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
         Confirm Password: 
       </label>
       <input
+        id="confirm"
         name="confirm"
         type="password"
       />
@@ -55,6 +58,7 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
         Image URL (optional): 
       </label>
       <input
+        id="imageURL"
         name="imageURL"
       />
     </p>
