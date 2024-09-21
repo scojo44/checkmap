@@ -16,7 +16,7 @@ exports[`App Tests > Matches snapshot 1`] = `
     id="App-main"
   >
     <div
-      class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+      class="Map leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
       style="position: relative;"
       tabindex="0"
     >

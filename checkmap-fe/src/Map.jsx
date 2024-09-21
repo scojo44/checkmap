@@ -4,21 +4,26 @@ import 'leaflet/dist/leaflet.css'
 import CheckMapAPI from './api'
 import UserContext from './UserContext'
 import ModalOutlet from './ModalOutlet'
+import Alert from './widgets/Alert'
+import './Map.css'
 
-export default function Map(props) {
+export default function Map({alerts, dismissAlert, clearAlerts = test => test}) {
   const [isLoadingRegions, setIsLoadingRegions] = useState(false);
   const {user, currentList, setCurrentList, showAlert} = useContext(UserContext);
   // const {data, setApiCall, error, isLoading} = useCheckMapAPI();
   const [allRegions, setAllRegions] = useState();
   const [allStates, setAllStates] = useState();
-  const allowModal = !user || (location.pathname !== '/' && user); // Hide the welcome message if user logged in on "/" (the home map)
+  const atHome = location.pathname === '/';
+  const showModal = !user || (user && !atHome); // Hide the welcome message if user logged in on "/" (the home map)
   let listRegions;
 
-  if(allRegions && currentList) listRegions = currentList[allRegions.regionProp];
+  if(allRegions && currentList)
+    listRegions = currentList[allRegions.regionProp];
 
   useEffect(() => {
     async function getAllRegions() {
       const regionType = currentList?.regionType || "County";
+
       try {
         setIsLoadingRegions(true);
         setAllRegions(await CheckMapAPI.getRegions(regionType));
@@ -55,8 +60,11 @@ export default function Map(props) {
 
   return (
     <>
-    <MapContainer center={[40, -96]} zoom={5}>
-      {allowModal && <ModalOutlet/>}
+    <MapContainer className="Map" center={[40, -96]} zoom={5}>
+      {showModal
+        ? <ModalOutlet {...{alerts, dismissAlert, clearAlerts}}/>
+        : <Alert alerts={alerts} dismiss={dismissAlert}/>
+      }
       <TileLayer
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

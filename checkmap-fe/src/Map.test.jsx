@@ -29,7 +29,7 @@ describe('Map Tests', () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
-          <Map />
+          <Map/>
         </UserContext.Provider>
       </MemoryRouter>
     );
@@ -39,7 +39,7 @@ describe('Map Tests', () => {
     const {asFragment} = render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
-          <Map />
+          <Map/>
         </UserContext.Provider>
       </MemoryRouter>
     );

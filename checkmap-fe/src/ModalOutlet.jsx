@@ -1,12 +1,17 @@
-import React from "react"
-import {Outlet} from "react-router-dom";
+import React, { useEffect } from "react"
+import {Outlet} from "react-router-dom"
 import Modal from 'react-modal'
+import Alert from "./widgets/Alert"
 
 /** Wrapper to show forms as a modal dialog box */
 
-export default function ModalOutlet(props) {
+export default function ModalOutlet({alerts, dismissAlert, clearAlerts = test => test}) {
   // Bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
   Modal.setAppElement('#root');
+
+  useEffect(() => {
+    clearAlerts();
+  }, []);
 
   const customStyles = {
     overlay: {
@@ -20,7 +25,7 @@ export default function ModalOutlet(props) {
       margin: 'auto',
       minWidth: '400px',
       borderRadius: '1rem'
-    },
+    }
   };
 
   return (
@@ -30,6 +35,7 @@ export default function ModalOutlet(props) {
       contentLabel="Modal"
       ariaHideApp={import.meta.env.NODE_ENV !== 'test'} // Suppress appElement warnings during tests
     >
+      <Alert alerts={alerts} dismiss={dismissAlert}/>
       <Outlet/>
     </Modal>
   );

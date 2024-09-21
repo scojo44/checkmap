@@ -1,6 +1,3 @@
-.Alert {
-  margin: .5rem 2rem;
-}
 .Alert p {
   display: flex;
   justify-content: space-between;

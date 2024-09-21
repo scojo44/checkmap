@@ -11,7 +11,7 @@ describe('ModalOutlet Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <ModalOutlet element={<h1>Test</h1>}/>
+        <ModalOutlet/>
       </MemoryRouter>
     );
   });
@@ -19,7 +19,7 @@ describe('ModalOutlet Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-          <ModalOutlet element={<h1>Test</h1>}/>
+        <ModalOutlet/>
       </MemoryRouter>
     );
 

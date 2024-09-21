@@ -36,20 +36,19 @@ function App() {
       }
       catch(e) {
         showAlert('error', 'Error loading user info: ' + e);
-        logout();
+        resetUserState();
         setLoadingUser(false);
       }
     }
 
-    userToken? getLoggedInUser() : logout();
+    userToken? getLoggedInUser() : resetUserState();
   }, [userToken]);
 
   return (
     <UserContext.Provider value={{user, currentList, setCurrentList, showAlert}}>
       <NavBar logout={logout}/>
-      <Alert alerts={alerts} dismiss={dismissAlert}/>
       <main id="App-main">
-        <AppRoutes {...{login, signup, updateUser, addNewList, closeModal}}/>
+        <AppRoutes {...{login, signup, updateUser, addNewList, closeModal, alerts, dismissAlert, clearAlerts}}/>
       </main>
     </UserContext.Provider>
   );
@@ -78,18 +77,25 @@ function App() {
   }
 
   function processUserToken(token) {
-    setAlerts([]);
     setUserToken(token);
-    navigate('/');
+    closeModal();
   }
 
   /** logout: Log out the user */
 
   function logout() {
+    resetUserState();
+    showAlert('success', 'You are now logged out');
+  }
+
+  /** resetUserState: Clear user states */
+
+  function resetUserState() {
     setCurrentList(null);
     setUser(null);
     setUserToken(null);
     CheckMapAPI.userToken = undefined;
+    clearAlerts();
   }
 
   /** updateUser: Update user profile */
@@ -101,14 +107,13 @@ function App() {
 
     try {
       const updatedUser = await CheckMapAPI.updateUser(changes);
-      setAlerts([]);
-      showAlert('success', 'Your profile was updated')
+      closeModal();
       setUser(user => ({...user, updated: updatedUser}));
+      showAlert('success', 'Your profile was updated');
     }
     catch(e) {
       showAlert('error', 'Update profile failed: ' + e);
     }
-    closeModal();
   }
 
   /** addList: Adds a new list */
@@ -116,31 +121,38 @@ function App() {
   async function addNewList(newList) {
     try {
       const list = await CheckMapAPI.createList(user.username, newList);
-
+      closeModal();
       user.lists.push(list);
       setCurrentList(list);
+      showAlert('success', `New list created: ${list.name}`);
     }
     catch(e) {
       showAlert('error', 'Error creating list:' + e);
     }
-    closeModal();
   }
 
   function closeModal() {
+    clearAlerts();
     navigate('/');
   }
 
   /** showAlert: Show a message at the top */
 
   function showAlert(category, message) {
-    if(alerts.find(a => a.category === category && a.message === message)) return; // Ingore existing message
-    setAlerts(alerts => [...alerts, {category, message}]);
+    if(!alerts.find(a => a.category === category && a.message === message)) // Ignore if already showing this message
+      setAlerts(alerts => [...alerts, {id: alerts.length+1, category, message}]);
   }
 
   /** dismissAlert: Dismiss the alert message */
 
   function dismissAlert(alert) {
-    setAlerts(alerts => alerts.filter(a => a.category !== alert.category || a.message !== alert.message));
+    setAlerts(alerts => alerts.filter(a => a.id !== alert.id));
+  }
+
+  /** clearAlerts: Dismiss all alerts */
+
+  function clearAlerts() {
+    setAlerts([]);
   }
 }
 

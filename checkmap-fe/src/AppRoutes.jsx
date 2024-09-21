@@ -9,10 +9,10 @@ import ProfileForm from './user/ProfileForm'
 import ListManager from './lists/ListManager'
 import CreateListForm from './lists/CreateListForm'
 
-export default function AppRoutes({login, signup, updateUser, addNewList, closeModal}) {
+export default function AppRoutes({login, signup, updateUser, addNewList, closeModal, alerts, dismissAlert, clearAlerts}) {
   return (
     <Routes>
-      <Route element={<Map/>}>
+      <Route element={<Map {...{alerts, dismissAlert, clearAlerts}}/>}>
         <Route path="/" element={<Landing/>}/>
         <Route path="/login" element={<LoginForm login={login}/>}/>
         <Route path="/signup" element={<SignupForm signup={signup}/>}/>

@@ -1,0 +1,5 @@
+.Map .Alert {
+  position: relative;
+  margin: .5rem 3rem;
+  z-index: 9999;
+}

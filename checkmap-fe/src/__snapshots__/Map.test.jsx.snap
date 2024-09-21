@@ -3,7 +3,7 @@
 exports[`Map Tests > Matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+    class="Map leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
     style="position: relative;"
     tabindex="0"
   >
