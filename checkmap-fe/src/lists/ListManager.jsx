@@ -23,7 +23,7 @@ export default function ListManager({closeModal}) {
             <span className="list-button"><button onClick={() => switchList(list)} disabled={list === currentList}>Switch</button></span>
             <span className="list-button"><button onClick={() => deleteList(list)} disabled={list === currentList}>Delete</button></span>
           </div>
-          {editingListID === list.id && <EditListForm list={list} update={updateList} cancel={hideEditUI}/>}
+          {editingListID === list.id && <EditListForm {...{list, updateList}} cancel={hideEditUI}/>}
         </li>
       ))}
     </ul>

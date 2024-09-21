@@ -5,6 +5,10 @@ import CreateListForm from './CreateListForm'
 const mockAddList = vi.fn();
 
 describe('CreateListForm Tests', () => {
+  beforeEach(() => {
+    mockAddList.mockClear();
+  });
+
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
@@ -43,13 +47,11 @@ describe('CreateListForm Tests', () => {
     fireEvent.click(button);
 
     await waitFor(() => expect(mockAddList).toHaveBeenCalled());
-    await waitFor(() => {
-      expect(mockAddList).toHaveBeenCalledWith({
-        name: 'New Test List',
-        description: 'Test description',
-        regionType: 'County',
-        color: '#9370db'
-      })
-    });
+    await waitFor(() => expect(mockAddList).toHaveBeenCalledWith({
+      name: 'New Test List',
+      description: 'Test description',
+      regionType: 'County',
+      color: '#9370db'
+    }));
   });
 });

@@ -65,7 +65,7 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
     <button
       type="submit"
     >
-      Sign Up
+      Sign up
     </button>
      or 
     <a

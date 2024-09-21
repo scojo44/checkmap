@@ -14,7 +14,7 @@ export default function SignupForm({signup}) {
       <FormField name="username" label="Username" {...{register, errors}} validation={{required: 'Please choose a username'}}/>
       <NewPasswordFields {...{register, errors}}/>
       <FormField name="imageURL" label="Image URL (optional)" {...{register, errors}}/>
-      <button type="submit">Sign Up</button> or <Link to="/login">Log in</Link>
+      <button type="submit">Sign up</button> or <Link to="/login">Log in</Link>
     </form>
   );
 }

@@ -13,7 +13,7 @@ export default function LoginForm({login}) {
       <h2>Log In</h2>
       <FormField name="username" label="Username" {...{register, errors}} validation={{required: 'Please enter your username'}}/>
       <PasswordField name="password" label="Password" {...{register, errors}} validation={{required: 'Please enter your password'}}/>
-      <button type="submit">Log In</button> or <Link to="/signup">Sign up</Link>
+      <button type="submit">Log in</button> or <Link to="/signup">Sign up</Link>
     </form>
   );
 }
