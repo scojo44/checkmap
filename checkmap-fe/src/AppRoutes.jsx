@@ -9,7 +9,7 @@ import ProfileForm from './user/ProfileForm'
 import ListManager from './lists/ListManager'
 import CreateListForm from './lists/CreateListForm'
 
-export default function AppRoutes({login, signup, updateUser}) {
+export default function AppRoutes({login, signup, updateUser, addNewList, closeModal}) {
   return (
     <Routes>
       <Route element={<Map/>}>
@@ -17,9 +17,9 @@ export default function AppRoutes({login, signup, updateUser}) {
         <Route path="/login" element={<LoginForm login={login}/>}/>
         <Route path="/signup" element={<SignupForm signup={signup}/>}/>
         <Route element={<UserRoutes/>}>
-          <Route path="/lists" element={<ListManager/>}/>
-          <Route path="/newlist" element={<CreateListForm/>}/>
-          <Route path="/profile" element={<ProfileForm update={updateUser}/>}/>
+          <Route path="/lists" element={<ListManager {...{closeModal}}/>}/>
+          <Route path="/newlist" element={<CreateListForm {...{addNewList, closeModal}}/>}/>
+          <Route path="/profile" element={<ProfileForm {...{updateUser, closeModal}}/>}/>
         </Route>
       </Route>
     </Routes>

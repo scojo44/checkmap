@@ -49,7 +49,7 @@ function App() {
       <NavBar logout={logout}/>
       <Alert alerts={alerts} dismiss={dismissAlert}/>
       <main id="App-main">
-        <AppRoutes {...{login, signup, updateUser}}/>
+        <AppRoutes {...{login, signup, updateUser, addNewList, closeModal}}/>
       </main>
     </UserContext.Provider>
   );
@@ -77,10 +77,19 @@ function App() {
     }
   }
 
-  async function processUserToken(token) {
+  function processUserToken(token) {
     setAlerts([]);
     setUserToken(token);
     navigate('/');
+  }
+
+  /** logout: Log out the user */
+
+  function logout() {
+    setCurrentList(null);
+    setUser(null);
+    setUserToken(null);
+    CheckMapAPI.userToken = undefined;
   }
 
   /** updateUser: Update user profile */
@@ -99,28 +108,38 @@ function App() {
     catch(e) {
       showAlert('error', 'Update profile failed: ' + e);
     }
+    closeModal();
   }
 
-  /** logout: Log out the user */
+  /** addList: Adds a new list */
 
-  async function logout() {
-    setCurrentList(null);
-    setUser(null);
-    setUserToken(null);
-    CheckMapAPI.userToken = undefined;
-    // navigate('/');
+  async function addNewList(newList) {
+    try {
+      const list = await CheckMapAPI.createList(user.username, newList);
+
+      user.lists.push(list);
+      setCurrentList(list);
+    }
+    catch(e) {
+      showAlert('error', 'Error creating list:' + e);
+    }
+    closeModal();
+  }
+
+  function closeModal() {
+    navigate('/');
   }
 
   /** showAlert: Show a message at the top */
 
-  async function showAlert(category, message) {
+  function showAlert(category, message) {
     if(alerts.find(a => a.category === category && a.message === message)) return; // Ingore existing message
     setAlerts(alerts => [...alerts, {category, message}]);
   }
 
   /** dismissAlert: Dismiss the alert message */
 
-  async function dismissAlert(alert) {
+  function dismissAlert(alert) {
     setAlerts(alerts => alerts.filter(a => a.category !== alert.category || a.message !== alert.message));
   }
 }

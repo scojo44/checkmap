@@ -5,7 +5,7 @@ import UserContext from '../UserContext'
 import EditListForm from '../lists/EditListForm';
 import './ListManager.css'
 
-export default function ListManager(props) {
+export default function ListManager({closeModal}) {
   const [editingListID, setEditingListID] = useState();
   const [lastDeletedListID, setLastDeletedListID] = useState();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export default function ListManager(props) {
       ))}
     </ul>
     <form>
-      <button type="button" onClick={hideForm}>Close</button>
+      <button type="button" onClick={closeModal}>Close</button>
     </form>
     </section>
   );
@@ -36,7 +36,6 @@ export default function ListManager(props) {
   function switchList(list) { setCurrentList(list); }
   function showEditUI(list) { setEditingListID(list.id); }
   function hideEditUI() { setEditingListID(0); }
-  function hideForm() { navigate('/'); }
 
   async function updateList(updatedList) {
     try {
