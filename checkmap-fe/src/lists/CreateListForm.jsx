@@ -1,9 +1,11 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
+import useTitle from '../hooks/useTitle';
 import FormField from '../widgets/FormField';
 import './CreateListForm.css'
 
 export default function CreateListForm({addNewList, closeModal}) {
+  useTitle('Create New List');
   const {register, handleSubmit, formState: {errors}} = useForm();
 
   return (

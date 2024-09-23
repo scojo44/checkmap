@@ -1,9 +1,11 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
+import useTitle from '../hooks/useTitle';
 import FormField from '../widgets/FormField';
 import './EditListForm.css'
 
 export default function EditListForm({list, updateList, cancel}) {
+  useTitle(`Edit List: ${list.name}`);
   const {register, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
       name: list.name,

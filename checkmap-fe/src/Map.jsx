@@ -89,7 +89,9 @@ export default function Map({alerts, dismissAlert, clearAlerts = test => test}) 
           }
         }}
       />
-      {allStates && allRegions.regionProp !== 'states' && allStates.regions.map(state => <GeoJSON key={state.id} data={state.boundary} style={stateStyles} />)}
+      {allStates && allRegions.regionProp !== 'states' && allStates.regions.map(state =>
+        <GeoJSON key={state.id} data={state.boundary} style={stateStyles} />
+      )}
       {allRegions && allRegions.regions.map(region => {
         // Give the list's regions a different style
         const regionInList = currentList && listRegions.find(lr => lr.id === region.id);

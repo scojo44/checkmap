@@ -9,6 +9,8 @@ import Alert from './widgets/Alert'
 import AppRoutes from './AppRoutes'
 import './App.css'
 
+const SITE_NAME = 'CheckMap';
+
 function App() {
   const navigate = useNavigate();
   const [loadingUser, setLoadingUser] = useState(false);
@@ -45,7 +47,7 @@ function App() {
   }, [userToken]);
 
   return (
-    <UserContext.Provider value={{user, currentList, setCurrentList, showAlert}}>
+    <UserContext.Provider value={{SITE_NAME, user, currentList, setCurrentList, showAlert}}>
       <NavBar logout={logout}/>
       <main id="App-main">
         <AppRoutes {...{login, signup, updateUser, addNewList, closeModal, alerts, dismissAlert, clearAlerts}}/>

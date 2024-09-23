@@ -1,11 +1,13 @@
 import React, {useContext} from 'react'
 import {useForm} from 'react-hook-form'
+import useTitle from '../hooks/useTitle';
 import UserContext from '../UserContext'
 import FormField from '../widgets/FormField';
 import NewPasswordFields from '../widgets/NewPasswordFields';
 import './ProfileForm.css'
 
 export default function ProfileForm({updateUser, closeModal}) {
+  useTitle('User Profile');
   const {user} = useContext(UserContext);
   const {register, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {

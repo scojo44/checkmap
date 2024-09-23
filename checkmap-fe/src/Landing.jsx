@@ -1,8 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
+import useTitle from './hooks/useTitle';
 import './Landing.css'
 
 export default function Landing() {
+  useTitle('Track Your Visited States & Counties');
+
   return (
     <section className="Landing">
       <h1>CheckMap</h1>

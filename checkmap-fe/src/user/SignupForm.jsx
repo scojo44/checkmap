@@ -1,11 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
 import {useForm} from 'react-hook-form'
+import useTitle from '../hooks/useTitle';
 import FormField from '../widgets/FormField';
 import NewPasswordFields from '../widgets/NewPasswordFields';
 // import './SignupForm.css'
 
 export default function SignupForm({signup}) {
+  useTitle('Sign Up');
   const {register, handleSubmit, formState: {errors}} = useForm();
 
   return (

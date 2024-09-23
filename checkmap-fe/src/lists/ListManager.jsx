@@ -1,11 +1,13 @@
 import React, {useContext, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import CheckMapAPI from '../api';
+import useTitle from '../hooks/useTitle';
 import UserContext from '../UserContext'
 import EditListForm from '../lists/EditListForm';
 import './ListManager.css'
 
 export default function ListManager({closeModal}) {
+  useTitle('List Manager');
   const [editingListID, setEditingListID] = useState();
   const [lastDeletedListID, setLastDeletedListID] = useState();
   const navigate = useNavigate();

@@ -1,11 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
 import {useForm} from 'react-hook-form'
+import useTitle from '../hooks/useTitle';
 import FormField from '../widgets/FormField';
 import PasswordField from '../widgets/PasswordField';
 // import './LoginForm.css'
 
 export default function LoginForm({login}) {
+  useTitle('Log In');
   const {register, handleSubmit, formState: {errors}} = useForm();
 
   return (
