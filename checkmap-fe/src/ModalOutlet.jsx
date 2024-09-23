@@ -24,7 +24,9 @@ export default function ModalOutlet({alerts, dismissAlert, clearAlerts = test =>
       width: '50%',
       margin: 'auto',
       minWidth: '400px',
-      borderRadius: '1rem'
+      borderRadius: '1rem',
+      color: 'black',
+      backgroundColor: 'rgba(255,255,255,60%)'
     }
   };
 
