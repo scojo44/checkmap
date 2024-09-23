@@ -2,9 +2,12 @@
   display: block;
   width: 95%;
 }
+.ProfileForm {
+  max-height: calc(100vh - 8rem);
+}
 .ProfileForm img {
   display: block;
   margin: auto;
-  margin-top: 1rem;
+  padding: 1rem 0;
   max-width: 100%;
 }

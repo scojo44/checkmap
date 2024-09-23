@@ -19,10 +19,11 @@ export default function ModalOutlet({alerts, dismissAlert, clearAlerts = test =>
       zIndex: '9999'
     },
     content: {
-      top: '10%',
+      top: '3.5rem',
       bottom: 'auto',
       width: '50%',
       margin: 'auto',
+      padding: '1rem',
       minWidth: '400px',
       borderRadius: '1rem',
       color: 'black',
