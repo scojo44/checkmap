@@ -37,7 +37,7 @@ function App() {
           setCurrentList(user.lists[0]);
       }
       catch(e) {
-        showAlert('error', 'Error loading user info: ' + e);
+        showAlert('error', 'Error loading user info: ' + e.message);
         resetUserState();
         setLoadingUser(false);
       }
@@ -63,7 +63,7 @@ function App() {
       processUserToken(await CheckMapAPI.signup(newUser));
     }
     catch(e) {
-      showAlert('error', 'Registration failed: ' + e);
+      showAlert('error', 'Registration failed: ' + e.message);
     }
   }
 
@@ -74,7 +74,7 @@ function App() {
       processUserToken(await CheckMapAPI.login(credentials));
     }
     catch(e) {
-      showAlert('error', 'Login failed: ' + e);
+      showAlert('error', 'Login failed: ' + e.message);
     }
   }
 
@@ -114,7 +114,7 @@ function App() {
       showAlert('success', 'Your profile was updated');
     }
     catch(e) {
-      showAlert('error', 'Update profile failed: ' + e);
+      showAlert('error', 'Update profile failed: ' + e.message);
     }
   }
 
@@ -129,9 +129,11 @@ function App() {
       showAlert('success', `New list created: ${list.name}`);
     }
     catch(e) {
-      showAlert('error', 'Error creating list:' + e);
+      showAlert('error', 'Error creating list:' + e.message);
     }
   }
+
+  /** closeModal: Closes the modal form */
 
   function closeModal() {
     clearAlerts();

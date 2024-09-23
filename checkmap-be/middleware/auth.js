@@ -36,7 +36,7 @@ function authenticateJWT(req, res, next) {
 function ensureLoggedIn(req, res, next) {
   try {
     if(!res.locals.userToken)
-      throw new UnauthorizedError();
+      throw new UnauthorizedError('You must be logged in with a valid token.');
 
     return next();
   }
@@ -53,7 +53,7 @@ function ensureLoggedIn(req, res, next) {
 function ensureAdmin(req, res, next) {
   try {
     if(res.locals.userToken?.role !== UserRole.Admin)
-      throw new UnauthorizedError();
+      throw new UnauthorizedError('You must be logged in with administrator privileges.');
 
     return next();
   }
@@ -72,7 +72,7 @@ function ensureSelfOrAdmin(req, res, next) {
     const loginMatchesUserRoute = res.locals.userToken?.username === req.params.username;
     const userIsAdmin = res.locals.userToken?.role === UserRole.Admin;
     if(!loginMatchesUserRoute && !userIsAdmin)
-      throw new UnauthorizedError();
+      throw new UnauthorizedError('You must be logged in with a valid token.');
 
     return next();
   }

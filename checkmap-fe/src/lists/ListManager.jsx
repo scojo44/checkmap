@@ -50,7 +50,7 @@ export default function ListManager({closeModal}) {
       hideEditUI();
     }
     catch(e) {
-      showAlert('error', 'Error creating list:' + e);
+      showAlert('error', 'Error creating list:' + e.message);
     }
   }
 
@@ -62,7 +62,7 @@ export default function ListManager({closeModal}) {
       setLastDeletedListID(deletedListID);
   }
     catch(e) {
-      showAlert('error', 'Error creating list:' + e);
+      showAlert('error', 'Error creating list:' + e.message);
     }
   }
 }

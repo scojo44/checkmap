@@ -19,9 +19,13 @@ export default class CheckMapAPI {
       return (await axios({url, method, data, params, headers})).data;
     }
     catch (err) {
-      console.error("API Error:", err);
-      const message = `${err.name}: ${err.message} - URL: ${err.config.url}`;
-      throw Array.isArray(message) ? message : [message];
+      console.error("API Error:", {
+        status: err.response.status,
+        message: err.response.data.error.message,
+        url: err.config.url,
+        details: err
+      });
+      throw err.response.data.error;
     }
   }
 

@@ -31,7 +31,7 @@ export default function Map({alerts, dismissAlert, clearAlerts = test => test}) 
         if(!allStates) setAllStates(await CheckMapAPI.getRegions('State'));
       }
       catch(e) {
-        showAlert('error', `Error loading all ${regionType} regions`);
+        showAlert('error', `Error loading all ${regionType} regions:`, e.message);
       }
       setIsLoadingRegions(false);
     }
@@ -126,7 +126,7 @@ export default function Map({alerts, dismissAlert, clearAlerts = test => test}) 
     }
     catch(e) {
       const {name} = sourceTarget.feature.properties;
-      showAlert('error', `Error ${operation.op} ${name} (#${regionID}) ${operation.fromTo} list #${currentList.id}:`);
+      showAlert('error', `Error ${operation.op} ${name} (#${regionID}) ${operation.fromTo} list #${currentList.id}:`, e.message);
     }
 }
 }
