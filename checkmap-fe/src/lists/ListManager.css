@@ -1,3 +1,6 @@
+.ListManager h2 {
+  margin-top: 0;
+}
 .ListManager ul {
   list-style-type: none;
 }
