@@ -1,67 +1,21 @@
-import React, {useState, useContext, useEffect} from 'react'
-import {MapContainer, TileLayer, GeoJSON} from 'react-leaflet'
+import React, {useContext} from 'react'
+import {MapContainer, TileLayer} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import CheckMapAPI from './api'
 import UserContext from './UserContext'
 import ModalOutlet from './ModalOutlet'
 import Alert from './widgets/Alert'
+import Regions from './Regions'
 import './Map.css'
 
 export default function Map({alerts, dismissAlert, clearAlerts = test => test}) {
-  const [isLoadingRegions, setIsLoadingRegions] = useState(false);
-  const {user, currentList, setCurrentList, showAlert} = useContext(UserContext);
-  // const {data, setApiCall, error, isLoading} = useCheckMapAPI();
-  const [allRegions, setAllRegions] = useState();
-  const [allStates, setAllStates] = useState();
+  const {user} = useContext(UserContext);
   const atHome = location.pathname === '/';
   const showModal = !user || (user && !atHome); // Hide the welcome message if user logged in on "/" (the home map)
-  let listRegions;
-
-  if(allRegions && currentList)
-    listRegions = currentList[allRegions.regionProp];
-
-  useEffect(() => {
-    async function getAllRegions() {
-      const regionType = currentList?.regionType || "County";
-
-      try {
-        setIsLoadingRegions(true);
-        setAllRegions(await CheckMapAPI.getRegions(regionType));
-        // Get the state polygons for thicker state borders
-        if(!allStates) setAllStates(await CheckMapAPI.getRegions('State'));
-      }
-      catch(e) {
-        showAlert('error', `Error loading all ${regionType} regions:`, e.message);
-      }
-      setIsLoadingRegions(false);
-    }
-
-    getAllRegions();
-  }, [currentList]);
-
-  const stateStyles = {
-    color: 'black',
-    fill: false,
-    weight: 3,
-    opacity: .3
-  }
-  const regionStyles = {
-    color: 'black',
-    fill: !!user, // False makes the regions not clickable for guests
-    fillOpacity: 0,
-    weight: 2,
-    opacity: .3
-  }
-  const listStyles = {
-    ...regionStyles,
-    fillOpacity: .5,
-    fillColor: currentList?.color || 'black' // In case user doesn't have a list yet
-  }
 
   return (
     <>
     <MapContainer className="Map" center={[40, -96]} zoom={5}>
-      {showModal
+      {showModal // Show alerts in the modal if open
         ? <ModalOutlet {...{alerts, dismissAlert, clearAlerts}}/>
         : <Alert alerts={alerts} dismiss={dismissAlert}/>
       }
@@ -89,44 +43,8 @@ export default function Map({alerts, dismissAlert, clearAlerts = test => test}) 
           }
         }}
       />
-      {allStates && allRegions.regionProp !== 'states' && allStates.regions.map(state =>
-        <GeoJSON key={state.id} data={state.boundary} style={stateStyles} />
-      )}
-      {allRegions && allRegions.regions.map(region => {
-        // Give the list's regions a different style
-        const regionInList = currentList && listRegions.find(lr => lr.id === region.id);
-        return <GeoJSON key={region.id} data={region.boundary} style={regionInList? listStyles : regionStyles} eventHandlers={{click: handleClick}} />
-      })}
+      <Regions/>
     </MapContainer>
     </>
   )
-
-  /** handleClick:  Toggles the region color. */
-
-  async function handleClick({sourceTarget}) {
-    const regionID = +sourceTarget.feature.properties.geoid;
-    const operation = {};
-
-    try {
-      if(!listRegions.find(r => r.id === regionID)) {
-        operation.op = 'adding';
-        operation.fromTo = 'to';
-        const addedRegion = await CheckMapAPI.addRegion(currentList.id, regionID);
-        listRegions.push(addedRegion);
-        setCurrentList(list => ({...list}))
-      }
-      else {
-        operation.op = 'removing';
-        operation.fromTo = 'from';
-        const removedRegion = await CheckMapAPI.removeRegion(currentList.id, regionID);
-        const removeIndex = listRegions.findIndex(r => r.id === removedRegion.id);
-        listRegions.splice(removeIndex, 1);
-        setCurrentList(list => ({...list}));
-      }
-    }
-    catch(e) {
-      const {name} = sourceTarget.feature.properties;
-      showAlert('error', `Error ${operation.op} ${name} (#${regionID}) ${operation.fromTo} list #${currentList.id}:`, e.message);
-    }
-}
 }

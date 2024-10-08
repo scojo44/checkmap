@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react'
+import {render, waitFor} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
 import ReactModal from 'react-modal'
 import UserContext from './UserContext'
@@ -25,7 +25,7 @@ describe('Map Tests', () => {
   // Adding a <div id="root"> around the <ModalOutlet> doesn't work.
   ReactModal.setAppElement = vi.fn();
 
-  it('Renders without crashing', () => {
+  it('Renders without crashing', async () => {
     render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
@@ -33,9 +33,11 @@ describe('Map Tests', () => {
         </UserContext.Provider>
       </MemoryRouter>
     );
+
+    await waitFor(() => expect(1).toBe(1));
   });
 
-  it('Matches snapshot', () => {
+  it('Matches snapshot', async () => {
     const {asFragment} = render(
       <MemoryRouter>
         <UserContext.Provider value={context}>
@@ -44,6 +46,6 @@ describe('Map Tests', () => {
       </MemoryRouter>
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    await waitFor(() => expect(asFragment()).toMatchSnapshot());
   });
 });
