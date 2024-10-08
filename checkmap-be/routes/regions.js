@@ -20,10 +20,10 @@ router.get("/", async function (req, res, next) {
 
     if(!RegionType[type]) throw new NotFoundError(`Unknown region type: ${type}`);
 
-    const {regionModel, regionsField} = getListRegion(type);
+    const {regionModel} = getListRegion(type);
     const regions = await db[regionModel].findMany();
 
-    return res.json({regionProp: regionsField, regions});
+    return res.json(regions);
   }
   catch(err) {
     return next(err);

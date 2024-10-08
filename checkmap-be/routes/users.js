@@ -6,6 +6,7 @@ const jsonschema = require('jsonschema')
 const {BCRYPT_WORK_FACTOR} = require('../config')
 const {NotFoundError, BadRequestError} = require('../expressError')
 const {createToken, registerUser} = require('../helpers/tokens')
+const {getListRegion} = require('../helpers/list')
 const {ensureLoggedIn, ensureAdmin, ensureSelfOrAdmin} = require('../middleware/auth')
 const {db, USER_SELECT_NO_PASSWORD, USER_SELECT_WITH_RELATIONS, LIST_INCLUDE_REGIONS} = require('../db')
 const userCreateSchema = require('../schemas/userRegisterByAdmin.json')
@@ -51,6 +52,10 @@ router.get("/:username", ensureLoggedIn, ensureSelfOrAdmin, async function (req,
     });
 
     if(!user) throw new NotFoundError(`User ${username} doesn't exist.`);
+
+    // Add the name of the array of regions to each list
+    user.lists.forEach(l => l.regionProp = getListRegion(l.regionType).regionsField);
+
     return res.json({user});
   }
   catch(err) {

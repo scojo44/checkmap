@@ -102,6 +102,7 @@ describe('GET /users/:username', function () {
         description: 'This is a test list.',
         color: '#6495ed',
         regionType: RegionType.State,
+        regionProp: 'states',
         ownerName: 'u1',
         states: expect.any(Array),
         counties: []
@@ -112,6 +113,7 @@ describe('GET /users/:username', function () {
         description: 'This is another test list.',
         color: '#6495ed',
         regionType: RegionType.County,
+        regionProp: 'counties',
         ownerName: 'u1',
         states: [],
         counties: []
