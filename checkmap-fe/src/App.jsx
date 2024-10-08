@@ -5,7 +5,6 @@ import CheckMapAPI from './api'
 import useLocalStorageState from './hooks/useLocalStorageState'
 import UserContext from './UserContext'
 import NavBar from './widgets/NavBar'
-import Alert from './widgets/Alert'
 import AppRoutes from './AppRoutes'
 import './App.css'
 
