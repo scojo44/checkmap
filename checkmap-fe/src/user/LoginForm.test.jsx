@@ -1,8 +1,12 @@
 import {render,fireEvent, waitFor} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
+import UserContext from '../UserContext';
 import LoginForm from './LoginForm'
 
 const mockLogin = vi.fn();
+const context = {
+  SITE_NAME: 'CheckMap'
+};
 
 describe('LoginForm Tests', () => {
   beforeEach(() => {
@@ -12,7 +16,9 @@ describe('LoginForm Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <LoginForm />
+        <UserContext.Provider value={context}>
+          <LoginForm/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
   });
@@ -20,7 +26,9 @@ describe('LoginForm Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-        <LoginForm />
+        <UserContext.Provider value={context}>
+          <LoginForm/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -30,7 +38,9 @@ describe('LoginForm Tests', () => {
   it('Calls the passed function with the submitted values', async () => {
     const {getByText, getByLabelText} = render(
       <MemoryRouter>
-        <LoginForm login={mockLogin}/>
+        <UserContext.Provider value={context}>
+          <LoginForm login={mockLogin}/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
 

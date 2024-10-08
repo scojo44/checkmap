@@ -1,5 +1,5 @@
-import {useContext, useEffect} from "react"
-import UserContext from "../UserContext";
+import {useContext, useEffect} from 'react'
+import UserContext from '../UserContext'
 
 export default function useTitle(pageTitle) {
   const {SITE_NAME} = useContext(UserContext);

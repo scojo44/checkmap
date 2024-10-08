@@ -1,8 +1,12 @@
 import {render, fireEvent, waitFor} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
+import UserContext from '../UserContext';
 import SignupForm from './SignupForm'
 
 const mockSignup = vi.fn();
+const context = {
+  SITE_NAME: 'CheckMap'
+};
 
 describe('SignupForm Tests', () => {
   beforeEach(() => {
@@ -12,7 +16,9 @@ describe('SignupForm Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <SignupForm />
+        <UserContext.Provider value={context}>
+          <SignupForm/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
   });
@@ -20,7 +26,9 @@ describe('SignupForm Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-        <SignupForm />
+        <UserContext.Provider value={context}>
+          <SignupForm/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -30,7 +38,9 @@ describe('SignupForm Tests', () => {
   it('Calls the passed function with the submitted values', async () => {
     const {getByText, getByLabelText} = render(
       <MemoryRouter>
-        <SignupForm signup={mockSignup}/>
+        <UserContext.Provider value={context}>
+          <SignupForm signup={mockSignup}/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -58,7 +68,9 @@ describe('SignupForm Tests', () => {
   it('Does not call the passed function when confirm does not match password', async () => {
     const {getByText, getByLabelText} = render(
       <MemoryRouter>
-        <SignupForm signup={mockSignup}/>
+        <UserContext.Provider value={context}>
+          <SignupForm signup={mockSignup}/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
 

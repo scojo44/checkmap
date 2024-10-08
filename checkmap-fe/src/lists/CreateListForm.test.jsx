@@ -1,8 +1,12 @@
 import {render, fireEvent, waitFor} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
+import UserContext from '../UserContext';
 import CreateListForm from './CreateListForm'
 
 const mockAddList = vi.fn();
+const context = {
+  SITE_NAME: 'CheckMap'
+};
 
 describe('CreateListForm Tests', () => {
   beforeEach(() => {
@@ -12,7 +16,9 @@ describe('CreateListForm Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <CreateListForm/>
+        <UserContext.Provider value={context}>
+          <CreateListForm/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
   });
@@ -20,7 +26,9 @@ describe('CreateListForm Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-        <CreateListForm/>
+        <UserContext.Provider value={context}>
+          <CreateListForm/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -30,7 +38,9 @@ describe('CreateListForm Tests', () => {
   it('Calls the passed function with the submitted values', async () => {
     const {getByText, getByLabelText} = render(
       <MemoryRouter>
-        <CreateListForm addNewList={mockAddList}/>
+        <UserContext.Provider value={context}>
+          <CreateListForm addNewList={mockAddList}/>
+        </UserContext.Provider>
       </MemoryRouter>
     );
 

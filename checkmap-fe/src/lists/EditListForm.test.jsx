@@ -1,5 +1,6 @@
 import {render, fireEvent, waitFor} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
+import UserContext from '../UserContext';
 import EditListForm from './EditListForm'
 
 const mockUpdateList = vi.fn();
@@ -13,6 +14,9 @@ const list = {
   states: [],
   counties: []
 }
+const context = {
+  SITE_NAME: 'CheckMap'
+};
 
 describe('EditListForm Tests', () => {
   beforeEach(() => {
@@ -22,7 +26,9 @@ describe('EditListForm Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <EditListForm list={list} />
+        <UserContext.Provider value={context}>
+          <EditListForm list={list} />
+        </UserContext.Provider>
       </MemoryRouter>
     );
   });
@@ -30,7 +36,9 @@ describe('EditListForm Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-        <EditListForm list={list} />
+        <UserContext.Provider value={context}>
+          <EditListForm list={list} />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -40,7 +48,9 @@ describe('EditListForm Tests', () => {
   it('Calls the passed function with the submitted values', async () => {
     const {getByText, getByLabelText} = render(
       <MemoryRouter>
-        <EditListForm list={list} updateList={mockUpdateList} />
+        <UserContext.Provider value={context}>
+          <EditListForm list={list} updateList={mockUpdateList} />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
